@@ -10,7 +10,7 @@ type HeroSectionProps = {
 };
 
 export default function HeroSection({ title, subtitle }: HeroSectionProps) {
-  // Animated scroll indicator DOM ref
+  // スクロールインジケータのDOM参照
   const indicatorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
       },
     );
 
-    // Cleanup on unmount
+    // アンマウント時にアニメーションを停止
     return () => animation.cancel();
   }, []);
 
@@ -48,7 +48,7 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
       </div>
       <Image
         src="/myline.png"
-        // Decorative image
+        // 装飾画像（読み上げ対象外）
         alt=""
         fill
         priority
