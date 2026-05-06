@@ -1,11 +1,14 @@
-import Main from './components/main';
-import About from './components/about';
+import HeroSection from './components/HeroSection';
+import AboutSection from './components/AboutSection';
 
 export default function Home() {
   return (
     <div>
-      <Main />
-      <About />
+      <HeroSection 
+      title="Portfolio" 
+      subtitle="Simple & Minimal Design" 
+      />
+      <AboutSection />
     </div>
   );
 }

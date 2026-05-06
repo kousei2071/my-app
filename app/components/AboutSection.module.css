@@ -10,15 +10,22 @@
 .container {
   max-width: 56rem;
   margin: 0 auto;
+  text-align: center;
 }
 
 .heading {
-  text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 1.25rem;
   color: #2d2d2d;
 }
 
 .title {
   font-size: 1.5rem;
   font-weight: 700;
+}
+
+.description {
+  margin: 0 auto 1.75rem;
+  max-width: 40rem;
+  color: #4b5563;
+  line-height: 1.8;
 }
