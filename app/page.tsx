@@ -6,7 +6,7 @@ export default function Home() {
     <div>
       <HeroSection 
       title="Portfolio" 
-      subtitle="Simple & Minimal Design" 
+      subtitle="設計から実装まで、まっすぐに" 
       />
       <AboutSection />
     </div>
