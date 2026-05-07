@@ -1,0 +1,32 @@
+/* Header layout:
+   - h1 is top-left
+   - other items (nav links) are top-right */
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* keep right side at the top */
+  font-family: "Copperplate Gothic", "Copperplate Gothic Std", Copperplate, Georgia, serif;
+}
+
+.title {
+  margin: 0; /* remove default h1 margin for clean top alignment */
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+}
+
+.links {
+  display: flex;
+  gap: 100px; /* home/about/works の隙間を大きく */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0.04em;
+}
+
+.links a {
+  text-decoration: none;
+  color: inherit;
+  line-height: 1.2;
+  font-size: 1.125rem; /* slightly larger to match the title */
+}
