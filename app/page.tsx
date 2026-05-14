@@ -9,8 +9,9 @@ export default function Home() {
       <HeroSection 
       title="Portfolio" 
       subtitle="設計から実装まで、まっすぐに" 
+      
       />
-      <AboutSection />
+      <AboutSection nameJa="富田 幸聖" nameEn="Kousei Tomita" />
     </div>
   );
 }

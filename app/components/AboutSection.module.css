@@ -1,31 +1,96 @@
 .section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5rem 1.5rem;
+  padding: clamp(3rem, 8vw, 5rem) 1.5rem;
   background-color: #ffffff;
 }
 
 .container {
-  max-width: 56rem;
+  max-width: 72rem;
   margin: 0 auto;
-  text-align: center;
+}
+
+.message {
+  max-width: 42rem;
+  text-align: left;
+  overflow-x: hidden;
 }
 
 .heading {
-  margin-bottom: 1.25rem;
-  color: #2d2d2d;
+  margin: 0 0 clamp(0.75rem, 2vw, 1.25rem);
+  color: #111827;
+  line-height: 0.9;
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 700;
+  display: block;
+  font-size: clamp(3.25rem, 17vw, 9.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #0f172a;
+  opacity: 0;
+  transform: translate3d(18%, 0, 0);
+  will-change: transform, opacity;
 }
 
-.description {
-  margin: 0 auto 1.75rem;
-  max-width: 40rem;
+.titleReveal {
+  animation: aboutTitleEnter 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes aboutTitleEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(22%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  .titleReveal {
+    animation: none;
+  }
+}
+
+.nameJa {
+  margin: 0 0 0.2rem;
+  max-width: 100%;
+  font-size: clamp(1.75rem, 5.5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  color: #111827;
+}
+
+.nameEn {
+  margin: 0 0 clamp(1rem, 3vw, 1.5rem);
+  max-width: 38rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #6b7280;
+}
+
+.lead {
+  margin: 0 0 1rem;
+  max-width: 38rem;
+  color: #374151;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.body {
+  margin: 0;
+  max-width: 38rem;
   color: #4b5563;
-  line-height: 1.8;
+  font-size: 0.95rem;
+  line-height: 1.85;
 }
