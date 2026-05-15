@@ -16,13 +16,15 @@ type AboutScrollStageProps = {
  *
  * 進捗の求め方:
  * - `.stage` の上端がビューポート上端より上に行った分を「スクロールした量」とみなす
- * - 全体でスクロール可能な量 = stage の高さ − ウィンドウ高
- * - progress = スクロールした量 / スクロール可能量（0〜1 に clamp）
+ * - progress = スクロールした量 / (stage の高さ − ウィンドウ高) を 0〜1 に clamp
+ *
+ * スクロールイベントは rAF で 1 フレームに 1 回だけ計測し、連続 setState / dispatch を抑える。
  */
 export default function AboutScrollStage({ children }: AboutScrollStageProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [preferReducedMotion, setPreferReducedMotion] = useState(false);
+  const rafRef = useRef(0);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -32,7 +34,8 @@ export default function AboutScrollStage({ children }: AboutScrollStageProps) {
     return () => mq.removeEventListener('change', sync);
   }, []);
 
-  const updateProgress = useCallback(() => {
+  const measure = useCallback(() => {
+    rafRef.current = 0;
     const stage = stageRef.current;
     if (!stage) return;
 
@@ -55,21 +58,28 @@ export default function AboutScrollStage({ children }: AboutScrollStageProps) {
     );
   }, []);
 
+  const scheduleMeasure = useCallback(() => {
+    if (rafRef.current !== 0) return;
+    rafRef.current = window.requestAnimationFrame(measure);
+  }, [measure]);
+
   useEffect(() => {
     if (preferReducedMotion) return;
 
-    updateProgress();
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress);
+    measure();
+    window.addEventListener('scroll', scheduleMeasure, { passive: true });
+    window.addEventListener('resize', scheduleMeasure);
 
     return () => {
-      window.removeEventListener('scroll', updateProgress);
-      window.removeEventListener('resize', updateProgress);
+      window.removeEventListener('scroll', scheduleMeasure);
+      window.removeEventListener('resize', scheduleMeasure);
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = 0;
       window.dispatchEvent(
         new CustomEvent<number>(ABOUT_SCROLL_PROGRESS_EVENT, { detail: -1 }),
       );
     };
-  }, [preferReducedMotion, updateProgress]);
+  }, [preferReducedMotion, measure, scheduleMeasure]);
 
   const payload = useMemo(() => ({ progress }), [progress]);
 
@@ -80,7 +90,9 @@ export default function AboutScrollStage({ children }: AboutScrollStageProps) {
   return (
     <div ref={stageRef} className={styles.stage}>
       <AboutScrollContext.Provider value={payload}>
-        <div id="about-scroll-hit" className={styles.sticky}>{children}</div>
+        <div id="about-scroll-hit" className={styles.sticky}>
+          {children}
+        </div>
       </AboutScrollContext.Provider>
     </div>
   );

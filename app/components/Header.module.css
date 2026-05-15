@@ -32,3 +32,13 @@
   line-height: 1.2;
   font-size: 1.125rem; /* slightly larger to match the title */
 }
+
+@media (max-width: 639px) {
+  .linksResponsive {
+    gap: clamp(0.75rem, 4vw, 2rem);
+  }
+
+  .linksResponsive a {
+    font-size: 1rem;
+  }
+}

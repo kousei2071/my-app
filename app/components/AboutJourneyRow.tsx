@@ -22,7 +22,7 @@ export default function AboutJourneyRow({ nameJa, nameEn }: AboutJourneyRowProps
   const [twoCol, setTwoCol] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 1000px)');
+    const mq = window.matchMedia('(min-width: 900px)');
     const apply = () => setTwoCol(mq.matches);
     apply();
     mq.addEventListener('change', apply);

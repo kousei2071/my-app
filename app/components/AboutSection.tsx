@@ -64,11 +64,6 @@ export default function AboutSection({
         }
       : undefined;
 
-  const messageStyle =
-    motion != null
-      ? { overflowX: motion.messageOverflowX as 'visible' | 'clip' }
-      : undefined;
-
   const nameBlockStyle =
     motion != null && motion.nameBlockTranslateYRem !== 0
       ? { transform: `translateY(${motion.nameBlockTranslateYRem}rem)` }
@@ -85,7 +80,6 @@ export default function AboutSection({
           className={
             pairLayout ? `${styles.message} ${styles.messagePair}` : styles.message
           }
-          style={messageStyle}
         >
           <h2 ref={headingRef} id="about-title" className={styles.heading}>
             <span className={titleClassName} lang="en" style={titleStyle}>

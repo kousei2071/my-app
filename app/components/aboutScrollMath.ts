@@ -1,7 +1,8 @@
 /**
  * About スクロール演出用の純関数。
- * 進捗 p（0 = スクロール開始直後、1 = ステージ終端）から、
- * グリッド比率・ABOUT の transform・名前ブロックの位置などを求める。
+ * 進捗 p（0 = ステージ開始付近、1 = ステージ終端）からレイアウトと ABOUT の見え方を求める。
+ *
+ * 方針: p=0 から一貫したタイムライン（見出しが長く消えない・レイアウトとタイトルは同じ帯で進む）。
  */
 
 /** 0〜1 に収める */
@@ -38,84 +39,41 @@ export type AboutScrollMotion = {
   /** CSS grid-template-columns 用（fr 係数） */
   gridLeftFr: number;
   gridRightFr: number;
-  /** .wrap の max-width（rem）。フェーズ1で広げたあと維持 */
+  /** .wrap の max-width（rem） */
   wrapMaxWidthRem: number;
   /** ABOUT 用 transform（translate / scale を文字列で） */
   titleTransform: string;
   titleOpacity: number;
-  /** 名前〜本文（スクロール連動の translateY は使わず常に 0） */
+  /** スクロール連動の縦シフトは使わない（常に 0） */
   nameBlockTranslateYRem: number;
-  /** フェーズ1で ABOUT を切らず見せる */
-  messageOverflowX: 'visible' | 'clip';
 };
 
-/** フェーズ1終了時・フェーズ2中の「広い」カラム係数（左右同じ） */
-const WIDE_COL_FR = 2.75;
+/** 広がり終了時のカラム係数 */
+const WIDE_COL_FR = 2.5;
 
-/** レイアウト広がり・ABOUT 登場を始めるスクロール割合（それまでは ABOUT 非表示・レイアウト初期） */
-const PHASE1_START = 0.04;
-
-/**
- * ABOUT は左からのスライド＋フェードで登場。
- * 自己紹介ブロックの縦シフトは行わない（nameBlockTranslateYRem は常に 0）。
- */
-/** ABOUT タイトル: 左から入るスライドが終わるまでの progress 上限 */
-const TITLE_SLIDE_END = 0.24;
-/** 不透明度が立ち上がる区間（急に出ないように PHASE1_START から短めにフェード） */
-const TITLE_FADE_END = 0.1;
+/** グリッド・max-width が広がり切るまで */
+const LAYOUT_END = 0.38;
+/** ABOUT のフェード 0→1 */
+const TITLE_FADE_END = 0.14;
+/** ABOUT の左からのスライド完了 */
+const TITLE_SLIDE_END = 0.36;
 
 export function computeAboutScrollMotion(p: number): AboutScrollMotion {
   const pClamped = clamp01(p);
 
-  const tLayout = easeSegment(pClamped, PHASE1_START, 0.22);
-  const tSlide = easeSegment(pClamped, PHASE1_START, TITLE_SLIDE_END);
-  const tFade = easeSegment(pClamped, PHASE1_START, TITLE_FADE_END);
-  const tScale = easeSegment(pClamped, PHASE1_START, 0.18);
+  const tLayout = easeSegment(pClamped, 0, LAYOUT_END);
+  const tSlide = easeSegment(pClamped, 0, TITLE_SLIDE_END);
+  const tFade = easeSegment(pClamped, 0, TITLE_FADE_END);
+  const tScale = easeSegment(pClamped, 0, 0.22);
 
-  // --- グリッド: PHASE1_START までは初期 → 0.22 までに WIDE ---
-  let gridLeftFr = 1.05;
-  let gridRightFr = 0.95;
-  if (pClamped < PHASE1_START) {
-    gridLeftFr = 1.05;
-    gridRightFr = 0.95;
-  } else if (pClamped <= 0.22) {
-    gridLeftFr = lerp(1.05, WIDE_COL_FR, tLayout);
-    gridRightFr = lerp(0.95, WIDE_COL_FR, tLayout);
-  } else {
-    gridLeftFr = WIDE_COL_FR;
-    gridRightFr = WIDE_COL_FR;
-  }
+  const gridLeftFr = lerp(1.05, WIDE_COL_FR, tLayout);
+  const gridRightFr = lerp(0.95, WIDE_COL_FR, tLayout);
+  const wrapMaxWidthRem = lerp(72, 100, tLayout);
 
-  let wrapMaxWidthRem = 72;
-  if (pClamped < PHASE1_START) {
-    wrapMaxWidthRem = 72;
-  } else if (pClamped <= 0.22) {
-    wrapMaxWidthRem = lerp(72, 104, tLayout);
-  } else {
-    wrapMaxWidthRem = 104;
-  }
-
-  // --- ABOUT: 左からスライドイン＋フェード（急な出現を防ぐ）---
-  let titleTransform = '';
-  let titleOpacity = 1;
-
-  if (pClamped < PHASE1_START) {
-    titleOpacity = 0;
-    titleTransform = 'translateX(-32vw) scale(0.9)';
-  } else if (pClamped <= TITLE_SLIDE_END) {
-    titleOpacity = lerp(0, 1, tFade);
-    const txVw = lerp(-30, 0, tSlide);
-    const sc = lerp(0.9, 1, tScale);
-    titleTransform = `translateX(${txVw}vw) scale(${sc})`;
-  } else {
-    titleOpacity = 1;
-    titleTransform = 'translateX(0) scale(1)';
-  }
-
-  const nameBlockTranslateYRem = 0;
-
-  const messageOverflowX: 'visible' | 'clip' =
-    pClamped > 0.18 && pClamped < 0.5 ? 'visible' : 'clip';
+  const titleOpacity = lerp(0.28, 1, tFade);
+  const txVw = lerp(-14, 0, tSlide);
+  const sc = lerp(0.94, 1, tScale);
+  const titleTransform = `translateX(${txVw}vw) scale(${sc})`;
 
   return {
     gridLeftFr,
@@ -123,7 +81,6 @@ export function computeAboutScrollMotion(p: number): AboutScrollMotion {
     wrapMaxWidthRem,
     titleTransform,
     titleOpacity,
-    nameBlockTranslateYRem,
-    messageOverflowX,
+    nameBlockTranslateYRem: 0,
   };
 }

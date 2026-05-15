@@ -15,27 +15,29 @@ function mixNavRgb(t: number): string {
   return `rgb(${r} ${g} ${b})`;
 }
 
-/** About ステージの progress からナビの黒み 0〜1（ステージに入って少し経ったら暗くなる） */
+/** ステージ進捗に沿った黒み（帯に入ってからゆっくり立ち上げ） */
 function headerTintFromStageProgress(p: number): number {
-  return smoothstep01(segment(p, 0.02, 0.2));
+  return smoothstep01(segment(p, 0.06, 0.48));
 }
 
-function overlapTintFromDOM(headerEl: HTMLElement): number {
-  const aboutEl =
-    document.getElementById('about-scroll-hit') ??
-    document.getElementById('about');
+/** 固定ヘッダーと `#about` 本文ブロックの縦重なり（見た目の「上に乗った」度合い） */
+function overlapAboutBlockTint(headerEl: HTMLElement): number {
+  const about = document.getElementById('about');
+  if (!about) return 0;
   const h = headerEl.getBoundingClientRect();
-  if (!aboutEl) return 0;
-  const a = aboutEl.getBoundingClientRect();
-
+  const a = about.getBoundingClientRect();
   const overlap = Math.min(h.bottom, a.bottom) - Math.max(h.top, a.top);
   if (h.height <= 0) return 0;
-
   const raw = overlap <= 0 ? 0 : overlap / h.height;
-  const startF = 0.15;
-  const endF = 0.85;
-  const t = (raw - startF) / (endF - startF);
-  return clamp01(t);
+  const startF = 0.1;
+  const endF = 0.78;
+  return clamp01((raw - startF) / (endF - startF));
+}
+
+function combinedHeaderTint(stageProgress: number, headerEl: HTMLElement | null): number {
+  const tStage = headerTintFromStageProgress(stageProgress);
+  const tDom = headerEl ? overlapAboutBlockTint(headerEl) : 0;
+  return clamp01(0.32 * tStage + 0.68 * tDom);
 }
 
 const Header = () => {
@@ -43,24 +45,23 @@ const Header = () => {
   const stageModeRef = useRef(false);
   const [aboutT, setAboutT] = useState(0);
 
-  /** ステージからの progress（`AboutScrollStage` が `CustomEvent` で配信） */
   useEffect(() => {
     const onStage = (e: Event) => {
       const d = (e as CustomEvent<number>).detail;
       if (d === -1) {
         stageModeRef.current = false;
         const he = headerRef.current;
-        if (he) setAboutT(overlapTintFromDOM(he));
+        if (he) setAboutT(overlapAboutBlockTint(he));
         return;
       }
       stageModeRef.current = true;
-      setAboutT(headerTintFromStageProgress(d));
+      const he = headerRef.current;
+      setAboutT(combinedHeaderTint(d, he));
     };
     window.addEventListener(ABOUT_SCROLL_PROGRESS_EVENT, onStage);
     return () => window.removeEventListener(ABOUT_SCROLL_PROGRESS_EVENT, onStage);
   }, []);
 
-  /** reduced-motion などでステージが無いとき: ヘッダーと `#about` の縦重なりで色を変える */
   useEffect(() => {
     const headerEl = headerRef.current;
     if (!headerEl) return;
@@ -68,7 +69,7 @@ const Header = () => {
     let raf = 0;
     const tick = () => {
       if (stageModeRef.current) return;
-      setAboutT(overlapTintFromDOM(headerEl));
+      setAboutT(overlapAboutBlockTint(headerEl));
     };
 
     const onScrollOrResize = () => {
@@ -97,11 +98,11 @@ const Header = () => {
   return (
     <header
       ref={headerRef}
-      className="fixed z-50 bg-transparent shadow-none top-[50px] left-[100px] w-[calc(100%-200px)]"
+      className="fixed z-50 bg-transparent shadow-none top-4 left-4 right-4 w-auto sm:top-[50px] sm:left-[100px] sm:right-auto sm:w-[calc(100%-200px)]"
     >
-      <nav className={`w-full px-0 py-4 ${styles.nav}`} style={navStyle}>
-        <h1 className={`text-3xl font-bold ${styles.title}`}>Kousei Tomita</h1>
-        <ul className={styles.links}>
+      <nav className={`w-full px-0 py-3 sm:py-4 ${styles.nav}`} style={navStyle}>
+        <h1 className={`text-2xl font-bold sm:text-3xl ${styles.title}`}>Kousei Tomita</h1>
+        <ul className={`${styles.links} ${styles.linksResponsive}`}>
           <li>
             <Link href="/">Home</Link>
           </li>

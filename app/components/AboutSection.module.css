@@ -29,6 +29,7 @@
 .messagePair {
   padding-left: clamp(1rem, 3vw, 1.5rem);
   border-left: 10px solid #0a0a0a;
+  overflow-x: visible;
 }
 
 .heading {
@@ -61,7 +62,7 @@
 }
 
 .nameBlock {
-  will-change: transform;
+  min-width: 0;
 }
 
 @keyframes aboutTitleEnter {
