@@ -1,0 +1,236 @@
+.section {
+  padding: clamp(3rem, 10vw, 6rem) 1.5rem;
+  background-color: #ffffff;
+}
+
+.sectionPair {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.inner {
+  max-width: 44rem;
+  margin: 0 auto;
+}
+
+.innerPair {
+  flex: 1;
+  max-width: none;
+  margin: 0;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  background-color: #0a0a0a;
+  color: #fafafa;
+  border: none;
+  border-radius: 0;
+  min-height: min(100%, 22rem);
+}
+
+/* —— 見出し —— */
+.heading {
+  margin: 0 0 clamp(2rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.headingEyebrow {
+  font-size: clamp(0.6875rem, 1.2vw, 0.8125rem);
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #737373;
+}
+
+.innerPair .headingEyebrow {
+  color: #a3a3a3;
+}
+
+.headingMain {
+  font-size: clamp(1.5rem, 4.2vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  color: #0a0a0a;
+}
+
+.innerPair .headingMain {
+  color: #fafafa;
+}
+
+.inner .headingEyebrow {
+  color: #525252;
+}
+
+/* —— タイムライン（主軸は太めの黒／ペア時は反転） —— */
+.timeline {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: calc(2.75rem / 2 - 2px);
+  top: 0.35rem;
+  bottom: 0.35rem;
+  width: 4px;
+  background-color: #0a0a0a;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.innerPair .timeline::before {
+  background-color: #fafafa;
+  left: calc(2.75rem / 2 - 2px);
+}
+
+.event {
+  position: relative;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  column-gap: clamp(0.75rem, 2vw, 1.25rem);
+  align-items: stretch;
+  padding-bottom: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.event:last-child {
+  padding-bottom: 0;
+}
+
+.spine {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  min-height: 3.25rem;
+}
+
+.dot {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-left: calc(2.75rem / 2 - 0.425rem);
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 3px solid #0a0a0a;
+  box-shadow: 0 0 0 3px #ffffff;
+}
+
+.innerPair .dot {
+  background-color: #0a0a0a;
+  border-color: #fafafa;
+  box-shadow: 0 0 0 3px #0a0a0a;
+}
+
+.branch {
+  flex: 1 1 auto;
+  height: 3px;
+  margin: 0;
+  min-width: 0.5rem;
+  margin-top: 0.05rem;
+  border-radius: 1px;
+  background-color: #0a0a0a;
+}
+
+.innerPair .branch {
+  background-color: #fafafa;
+}
+
+/* —— カード —— */
+.card {
+  position: relative;
+  margin: 0;
+  padding: clamp(1rem, 2.5vw, 1.35rem) clamp(1rem, 2.5vw, 1.5rem);
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
+  border-radius: 0;
+  border: none;
+  border-left: 5px solid #0a0a0a;
+  background-color: #fafafa;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.innerPair .card {
+  background-color: #171717;
+  border-left-color: #fafafa;
+}
+
+.index {
+  position: absolute;
+  top: 0.15rem;
+  right: 0.35rem;
+  font-size: clamp(3.25rem, 12vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgb(10 10 10 / 6%);
+  pointer-events: none;
+  user-select: none;
+}
+
+.innerPair .index {
+  color: rgb(250 250 250 / 8%);
+}
+
+.period {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.5rem;
+  font-size: clamp(0.8125rem, 1.8vw, 0.9375rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  color: #525252;
+}
+
+.innerPair .period {
+  color: #a3a3a3;
+}
+
+.cardTitle {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.125rem, 2.8vw, 1.5rem);
+  font-weight: 800;
+  color: #0a0a0a;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.innerPair .cardTitle {
+  color: #fafafa;
+}
+
+.cardBody {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
+  line-height: 1.65;
+  color: #404040;
+}
+
+.innerPair .cardBody {
+  color: #d4d4d4;
+}
+
+@media (min-width: 640px) {
+  .spine {
+    min-height: 3.5rem;
+  }
+
+  .card {
+    padding: clamp(1.15rem, 2.8vw, 1.5rem) clamp(1.15rem, 3vw, 1.65rem);
+    padding-top: clamp(1.35rem, 3.2vw, 1.85rem);
+  }
+}

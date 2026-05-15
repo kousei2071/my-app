@@ -1,0 +1,24 @@
+/**
+ * 外側: 長いスクロール距離を確保（この高さをスクロールする間に演出が進む）
+ * 内側: sticky でビューポートに張り付き、中身は常に見える
+ */
+.stage {
+  position: relative;
+  min-height: 320vh;
+  width: 100%;
+  /* 背後が Hero の暗色のとき、余白が上下に黒く見えないようにする */
+  background-color: #ffffff;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}

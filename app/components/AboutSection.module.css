@@ -3,15 +3,32 @@
   background-color: #ffffff;
 }
 
+.sectionPair {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
 .container {
   max-width: 72rem;
   margin: 0 auto;
 }
 
+.containerPair {
+  max-width: none;
+  margin: 0;
+}
+
 .message {
   max-width: 42rem;
+  min-width: 0;
   text-align: left;
-  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+.messagePair {
+  padding-left: clamp(1rem, 3vw, 1.5rem);
+  border-left: 10px solid #0a0a0a;
 }
 
 .heading {
@@ -22,18 +39,29 @@
 
 .title {
   display: block;
-  font-size: clamp(3.25rem, 17vw, 9.5rem);
+  font-size: clamp(4rem, 18vw, 11.5rem);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
-  color: #0f172a;
+  color: #0a0a0a;
   opacity: 0;
   transform: translate3d(18%, 0, 0);
   will-change: transform, opacity;
 }
 
-.titleReveal {
-  animation: aboutTitleEnter 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+.titleScroll {
+  display: block;
+  will-change: transform, opacity;
+  transform-origin: left center;
+}
+
+/* 縦線（border-left）付近を変形の起点に：padding + ボーダー半分ぶん左へ */
+.messagePair .titleScroll {
+  transform-origin: calc(-1 * clamp(1rem, 3vw, 1.5rem) - 5px) 50%;
+}
+
+.nameBlock {
+  will-change: transform;
 }
 
 @keyframes aboutTitleEnter {
@@ -46,6 +74,10 @@
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+}
+
+.titleReveal {
+  animation: aboutTitleEnter 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -63,34 +95,35 @@
 .nameJa {
   margin: 0 0 0.2rem;
   max-width: 100%;
-  font-size: clamp(1.75rem, 5.5vw, 3.25rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: 0.04em;
-  color: #111827;
+  font-size: clamp(2.25rem, 6.5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: #0a0a0a;
 }
 
 .nameEn {
-  margin: 0 0 clamp(1rem, 3vw, 1.5rem);
-  max-width: 38rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: #6b7280;
+  margin: 0 0 clamp(1.25rem, 3.5vw, 2rem);
+  max-width: 42rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #525252;
 }
 
 .lead {
-  margin: 0 0 1rem;
-  max-width: 38rem;
-  color: #374151;
-  font-size: 1.05rem;
-  line-height: 1.75;
+  margin: 0 0 1.15rem;
+  max-width: 42rem;
+  color: #171717;
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.55;
 }
 
 .body {
   margin: 0;
-  max-width: 38rem;
-  color: #4b5563;
-  font-size: 0.95rem;
-  line-height: 1.85;
+  max-width: 42rem;
+  color: #404040;
+  font-size: clamp(1.0625rem, 2.2vw, 1.1875rem);
+  line-height: 1.72;
 }

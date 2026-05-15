@@ -7,12 +7,7 @@
   justify-content: space-between;
   align-items: flex-start; /* keep right side at the top */
   font-family: "Copperplate Gothic", "Copperplate Gothic Std", Copperplate, Georgia, serif;
-  /* About の白背景に入ってきたら徐々に黒へ */
-  color: color-mix(
-    in srgb,
-    #ffffff calc(100% - var(--t, 0%)),
-    #171717 var(--t, 0%)
-  );
+  /* 文字色は Header.tsx のスクロール連動で inline の color を付与（.links a は inherit） */
   transition: color 120ms linear;
 }
 
