@@ -1,0 +1,60 @@
+.section {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  padding: clamp(7rem, 12vw, 10rem) clamp(1.25rem, 5vw, 5rem);
+}
+
+.leftTitle,
+.rightTitle {
+  position: absolute;
+  margin: 0;
+  font-size: clamp(7rem, 15vw, 13.5rem);
+  font-weight: 900;
+  line-height: 0.7;
+  letter-spacing: -0.1em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  user-select: none;
+  color: rgb(10 10 10 / 6%);
+  z-index: 0;
+}
+
+.leftTitle {
+  left: clamp(0.25rem, 1vw, 0.9rem);
+  bottom: clamp(-0.5rem, -0.5vw, 0rem);
+  transform: rotate(180deg);
+}
+
+.rightTitle {
+  top: clamp(-0.5rem, -0.5vw, 0rem);
+  right: clamp(0.25rem, 1vw, 0.9rem);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.placeholder {
+  margin: 0;
+  max-width: 32rem;
+  color: #0a0a0a;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 6.5rem 1rem 4rem;
+  }
+
+  .leftTitle,
+  .rightTitle {
+    font-size: clamp(5rem, 26vw, 8.5rem);
+  }
+}

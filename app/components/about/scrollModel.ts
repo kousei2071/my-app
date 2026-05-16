@@ -130,8 +130,13 @@ export function mixNavRgb(t: number): string {
 function overlapTint(headerEl: HTMLElement, target: Element): number {
   const h = headerEl.getBoundingClientRect();
   const a = target.getBoundingClientRect();
+
+  if (h.height <= 0) return 0;
+  if (a.top >= h.bottom) return 0;
+  if (a.bottom <= h.top) return 1;
+
   const overlap = Math.min(h.bottom, a.bottom) - Math.max(h.top, a.top);
-  if (h.height <= 0 || overlap <= 0) return 0;
+  if (overlap <= 0) return 0;
   const raw = overlap / h.height;
   return clamp01((raw - 0.1) / (0.78 - 0.1));
 }
