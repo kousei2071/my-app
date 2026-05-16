@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import LifeJourneySection from '../LifeJourneySection';
 import AboutSection from './AboutSection';
-import LifeJourneySection from './LifeJourneySection';
-import { computeAboutScrollMotion } from './aboutScrollMath';
-import { useAboutScrollStage } from './AboutScrollContext';
-import styles from './AboutJourneyRow.module.css';
+import { useAboutScroll } from './AboutScrollStage';
+import { ABOUT_TWO_COL_MIN_WIDTH_PX } from './scrollModel';
+import styles from './styles/AboutJourneyRow.module.css';
 
 type AboutJourneyRowProps = {
   nameJa: string;
@@ -13,22 +13,18 @@ type AboutJourneyRowProps = {
 };
 
 export default function AboutJourneyRow({ nameJa, nameEn }: AboutJourneyRowProps) {
-  const stage = useAboutScrollStage();
-  const motion = useMemo(
-    () => (stage ? computeAboutScrollMotion(stage.progress) : null),
-    [stage?.progress],
-  );
-
+  const scroll = useAboutScroll();
   const [twoCol, setTwoCol] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 900px)');
+    const mq = window.matchMedia(`(min-width: ${ABOUT_TWO_COL_MIN_WIDTH_PX}px)`);
     const apply = () => setTwoCol(mq.matches);
     apply();
     mq.addEventListener('change', apply);
     return () => mq.removeEventListener('change', apply);
   }, []);
 
+  const motion = scroll?.motion;
   const wrapStyle =
     motion && twoCol
       ? {
@@ -40,7 +36,7 @@ export default function AboutJourneyRow({ nameJa, nameEn }: AboutJourneyRowProps
   return (
     <div className={styles.bleed}>
       <div className={styles.wrap} style={wrapStyle}>
-        <AboutSection nameJa={nameJa} nameEn={nameEn} pairLayout />
+        <AboutSection nameJa={nameJa} nameEn={nameEn} />
         <LifeJourneySection pairLayout />
       </div>
     </div>

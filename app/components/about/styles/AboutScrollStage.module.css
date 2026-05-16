@@ -1,0 +1,19 @@
+.stage {
+  position: relative;
+  min-height: var(--about-stage-min-height, 155vh);
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}

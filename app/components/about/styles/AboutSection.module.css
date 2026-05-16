@@ -1,17 +1,7 @@
-.section {
-  padding: clamp(3rem, 8vw, 5rem) 1.5rem;
-  background-color: #ffffff;
-}
-
 .sectionPair {
   padding: 0;
   margin: 0;
   background-color: transparent;
-}
-
-.container {
-  max-width: 72rem;
-  margin: 0 auto;
 }
 
 .containerPair {
@@ -45,52 +35,20 @@
   letter-spacing: -0.04em;
   text-transform: uppercase;
   color: #0a0a0a;
-  opacity: 0;
-  transform: translate3d(18%, 0, 0);
-  will-change: transform, opacity;
 }
 
+/* スクロール演出: opacity / transform は inline のみ */
 .titleScroll {
   display: block;
   will-change: transform, opacity;
-  transform-origin: left center;
-}
-
-/* 縦線（border-left）付近を変形の起点に：padding + ボーダー半分ぶん左へ */
-.messagePair .titleScroll {
-  transform-origin: calc(-1 * clamp(1rem, 3vw, 1.5rem) - 5px) 50%;
+  transform-origin: calc(
+      -1 * clamp(1rem, 3vw, 1.5rem) - 5px + var(--about-title-origin-shift, 20px)
+    )
+    50%;
 }
 
 .nameBlock {
   min-width: 0;
-}
-
-@keyframes aboutTitleEnter {
-  from {
-    opacity: 0;
-    transform: translate3d(22%, 0, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.titleReveal {
-  animation: aboutTitleEnter 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .title {
-    opacity: 1;
-    transform: none;
-    will-change: auto;
-  }
-
-  .titleReveal {
-    animation: none;
-  }
 }
 
 .nameJa {
@@ -127,4 +85,12 @@
   color: #404040;
   font-size: clamp(1.0625rem, 2.2vw, 1.1875rem);
   line-height: 1.72;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .titleScroll {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
 }

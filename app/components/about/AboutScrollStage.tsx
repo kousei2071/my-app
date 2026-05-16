@@ -1,25 +1,50 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AboutScrollContext } from './AboutScrollContext';
-import styles from './AboutScrollStage.module.css';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
+import {
+  ABOUT_STAGE_MIN_HEIGHT_VH,
+  computeAboutScrollMotion,
+  type AboutScrollMotion,
+} from './scrollModel';
+import styles from './styles/AboutScrollStage.module.css';
 
-/** ヘッダー色など、ステージ外の `window` リスナー用（detail: -1 = ステージ終了） */
-export const ABOUT_SCROLL_PROGRESS_EVENT = 'about-scroll-progress';
-
-type AboutScrollStageProps = {
-  children: React.ReactNode;
+export type AboutScrollValue = {
+  progress: number;
+  motion: AboutScrollMotion;
 };
 
-/**
- * About ＋ 経歴ブロックを包み、縦スクロール量に応じて 0〜1 の進捗を子に配るラッパー。
- *
- * 進捗の求め方:
- * - `.stage` の上端がビューポート上端より上に行った分を「スクロールした量」とみなす
- * - progress = スクロールした量 / (stage の高さ − ウィンドウ高) を 0〜1 に clamp
- *
- * スクロールイベントは rAF で 1 フレームに 1 回だけ計測し、連続 setState / dispatch を抑える。
- */
+const AboutScrollContext = createContext<AboutScrollValue | null>(null);
+
+/** ステージ内の子だけが使う（Header は Provider の外） */
+export function useAboutScroll(): AboutScrollValue | null {
+  return useContext(AboutScrollContext);
+}
+
+function AboutScrollProvider({
+  value,
+  children,
+}: {
+  value: AboutScrollValue;
+  children: ReactNode;
+}) {
+  return (
+    <AboutScrollContext.Provider value={value}>{children}</AboutScrollContext.Provider>
+  );
+}
+
+type AboutScrollStageProps = {
+  children: ReactNode;
+};
+
 export default function AboutScrollStage({ children }: AboutScrollStageProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
@@ -39,23 +64,15 @@ export default function AboutScrollStage({ children }: AboutScrollStageProps) {
     const stage = stageRef.current;
     if (!stage) return;
 
-    const rect = stage.getBoundingClientRect();
     const scrollable = stage.offsetHeight - window.innerHeight;
     if (scrollable <= 0) {
       setProgress(0);
-      window.dispatchEvent(
-        new CustomEvent<number>(ABOUT_SCROLL_PROGRESS_EVENT, { detail: 0 }),
-      );
       return;
     }
 
-    const scrolled = -rect.top;
-    const raw = scrolled / scrollable;
-    const next = Math.min(1, Math.max(0, raw));
+    const scrolled = -stage.getBoundingClientRect().top;
+    const next = Math.min(1, Math.max(0, scrolled / scrollable));
     setProgress(next);
-    window.dispatchEvent(
-      new CustomEvent<number>(ABOUT_SCROLL_PROGRESS_EVENT, { detail: next }),
-    );
   }, []);
 
   const scheduleMeasure = useCallback(() => {
@@ -74,26 +91,32 @@ export default function AboutScrollStage({ children }: AboutScrollStageProps) {
       window.removeEventListener('scroll', scheduleMeasure);
       window.removeEventListener('resize', scheduleMeasure);
       cancelAnimationFrame(rafRef.current);
-      rafRef.current = 0;
-      window.dispatchEvent(
-        new CustomEvent<number>(ABOUT_SCROLL_PROGRESS_EVENT, { detail: -1 }),
-      );
     };
   }, [preferReducedMotion, measure, scheduleMeasure]);
 
-  const payload = useMemo(() => ({ progress }), [progress]);
+  const scrollValue = useMemo(
+    () => ({
+      progress,
+      motion: computeAboutScrollMotion(progress),
+    }),
+    [progress],
+  );
 
   if (preferReducedMotion) {
     return <>{children}</>;
   }
 
   return (
-    <div ref={stageRef} className={styles.stage}>
-      <AboutScrollContext.Provider value={payload}>
+    <div
+      ref={stageRef}
+      className={styles.stage}
+      style={{ ['--about-stage-min-height' as string]: `${ABOUT_STAGE_MIN_HEIGHT_VH}vh` }}
+    >
+      <AboutScrollProvider value={scrollValue}>
         <div id="about-scroll-hit" className={styles.sticky}>
           {children}
         </div>
-      </AboutScrollContext.Provider>
+      </AboutScrollProvider>
     </div>
   );
 }

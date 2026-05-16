@@ -2,79 +2,22 @@
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import Link from 'next/link';
-import { clamp01, segment, smoothstep01 } from './aboutScrollMath';
-import { ABOUT_SCROLL_PROGRESS_EVENT } from './AboutScrollStage';
+import { computeHeaderNavTint, mixNavRgb } from './about/scrollModel';
 import styles from './Header.module.css';
 
-/** Hero 上の白 (#fff) から About 帯の黒 (#171717) へ */
-function mixNavRgb(t: number): string {
-  const x = Math.min(1, Math.max(0, t));
-  const r = Math.round(255 + (23 - 255) * x);
-  const g = Math.round(255 + (23 - 255) * x);
-  const b = Math.round(255 + (23 - 255) * x);
-  return `rgb(${r} ${g} ${b})`;
-}
-
-/** ステージ進捗に沿った黒み（帯に入ってからゆっくり立ち上げ） */
-function headerTintFromStageProgress(p: number): number {
-  return smoothstep01(segment(p, 0.06, 0.48));
-}
-
-/** 固定ヘッダーと `#about` 本文ブロックの縦重なり（見た目の「上に乗った」度合い） */
-function overlapAboutBlockTint(headerEl: HTMLElement): number {
-  const about = document.getElementById('about');
-  if (!about) return 0;
-  const h = headerEl.getBoundingClientRect();
-  const a = about.getBoundingClientRect();
-  const overlap = Math.min(h.bottom, a.bottom) - Math.max(h.top, a.top);
-  if (h.height <= 0) return 0;
-  const raw = overlap <= 0 ? 0 : overlap / h.height;
-  const startF = 0.1;
-  const endF = 0.78;
-  return clamp01((raw - startF) / (endF - startF));
-}
-
-function combinedHeaderTint(stageProgress: number, headerEl: HTMLElement | null): number {
-  const tStage = headerTintFromStageProgress(stageProgress);
-  const tDom = headerEl ? overlapAboutBlockTint(headerEl) : 0;
-  return clamp01(0.32 * tStage + 0.68 * tDom);
-}
-
 const Header = () => {
-  const headerRef = useRef<HTMLElement | null>(null);
-  const stageModeRef = useRef(false);
+  const headerRef = useRef<HTMLElement>(null);
   const [aboutT, setAboutT] = useState(0);
-
-  useEffect(() => {
-    const onStage = (e: Event) => {
-      const d = (e as CustomEvent<number>).detail;
-      if (d === -1) {
-        stageModeRef.current = false;
-        const he = headerRef.current;
-        if (he) setAboutT(overlapAboutBlockTint(he));
-        return;
-      }
-      stageModeRef.current = true;
-      const he = headerRef.current;
-      setAboutT(combinedHeaderTint(d, he));
-    };
-    window.addEventListener(ABOUT_SCROLL_PROGRESS_EVENT, onStage);
-    return () => window.removeEventListener(ABOUT_SCROLL_PROGRESS_EVENT, onStage);
-  }, []);
 
   useEffect(() => {
     const headerEl = headerRef.current;
     if (!headerEl) return;
 
     let raf = 0;
-    const tick = () => {
-      if (stageModeRef.current) return;
-      setAboutT(overlapAboutBlockTint(headerEl));
-    };
-
+    const tick = () => setAboutT(computeHeaderNavTint(headerEl));
     const onScrollOrResize = () => {
       cancelAnimationFrame(raf);
-      raf = window.requestAnimationFrame(tick);
+      raf = requestAnimationFrame(tick);
     };
 
     tick();
