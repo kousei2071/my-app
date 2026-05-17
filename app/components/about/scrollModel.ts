@@ -142,8 +142,12 @@ function overlapTint(headerEl: HTMLElement, target: Element): number {
 }
 
 export function computeHeaderNavTint(headerEl: HTMLElement): number {
-  const target =
-    document.getElementById('about-scroll-hit') ?? document.getElementById('about');
-  if (!target) return 0;
-  return overlapTint(headerEl, target);
+  const lightBackgroundTargets = [
+    document.getElementById('about-scroll-hit') ?? document.getElementById('about'),
+    document.getElementById('works'),
+  ].filter((target): target is HTMLElement => target !== null);
+
+  if (lightBackgroundTargets.length === 0) return 0;
+
+  return Math.max(...lightBackgroundTargets.map((target) => overlapTint(headerEl, target)));
 }
