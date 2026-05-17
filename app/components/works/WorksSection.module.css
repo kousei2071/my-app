@@ -39,13 +39,208 @@
   margin: 0 auto;
 }
 
-.placeholder {
+.headingBlock {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(16rem, 1.2fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: end;
+  margin-bottom: clamp(2.25rem, 5vw, 4rem);
+}
+
+.eyebrow {
   margin: 0;
-  max-width: 32rem;
+  font-size: clamp(2.75rem, 8vw, 6.25rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+
+.lead {
+  margin: 0;
+  max-width: 34rem;
+  color: #404040;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2.4vw, 1.5rem);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  min-height: 32rem;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(10 10 10 / 12%);
+  border-radius: 0.5rem;
+  background: rgb(255 255 255 / 72%);
+  backdrop-filter: blur(18px);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #737373;
+}
+
+.number {
   color: #0a0a0a;
-  font-size: clamp(1.25rem, 3vw, 2rem);
+}
+
+.preview {
+  position: relative;
+  margin: 1rem;
+  min-height: 12rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  background:
+    linear-gradient(135deg, rgb(10 10 10 / 95%), rgb(64 64 64 / 88%)),
+    #0a0a0a;
+}
+
+.preview > span {
+  position: absolute;
+  top: 0.85rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: #fafafa;
+  opacity: 0.8;
+}
+
+.preview > span:nth-child(1) {
+  left: 0.9rem;
+}
+
+.preview > span:nth-child(2) {
+  left: 1.8rem;
+  opacity: 0.55;
+}
+
+.preview > span:nth-child(3) {
+  left: 2.7rem;
+  opacity: 0.35;
+}
+
+.previewWindow {
+  position: absolute;
+  right: -1rem;
+  bottom: -1rem;
+  left: 2.25rem;
+  min-height: 8rem;
+  padding: 1.3rem;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 1rem 0 0;
+  background: rgb(255 255 255 / 12%);
+}
+
+.previewTitle {
+  max-width: 12rem;
+  color: #ffffff;
+  font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.previewLine,
+.previewLineShort {
+  height: 0.55rem;
+  margin-top: 1rem;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 28%);
+}
+
+.previewLineShort {
+  width: 58%;
+  margin-top: 0.55rem;
+}
+
+.cardBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0.25rem clamp(1.15rem, 2.5vw, 1.35rem) clamp(1.15rem, 2.5vw, 1.35rem);
+}
+
+.role {
+  margin: 0 0 0.55rem;
+  color: #737373;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.description {
+  margin: 1rem 0 0;
+  color: #404040;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.75;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: auto 0 1rem;
+  padding: 1.5rem 0 0;
+  list-style: none;
+}
+
+.tags li {
+  border: 1px solid rgb(10 10 10 / 12%);
+  border-radius: 9999px;
+  padding: 0.35rem 0.65rem;
+  background: rgb(255 255 255 / 64%);
+  color: #262626;
+  font-size: 0.75rem;
   font-weight: 700;
-  line-height: 1.5;
+}
+
+.url {
+  margin: 0;
+  border-top: 1px solid rgb(10 10 10 / 10%);
+  padding-top: 0.9rem;
+  color: #0a0a0a;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 960px) {
+  .headingBlock {
+    grid-template-columns: 1fr;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    min-height: auto;
+  }
 }
 
 @media (max-width: 640px) {
@@ -57,4 +252,15 @@
   .rightTitle {
     font-size: clamp(5rem, 26vw, 8.5rem);
   }
+
+  .eyebrow {
+    font-size: clamp(2.5rem, 15vw, 4.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
 }
