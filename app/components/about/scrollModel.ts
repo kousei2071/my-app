@@ -145,6 +145,7 @@ export function computeHeaderNavTint(headerEl: HTMLElement): number {
   const lightBackgroundTargets = [
     document.getElementById('about-scroll-hit') ?? document.getElementById('about'),
     document.getElementById('works'),
+    document.getElementById('skills'),
   ].filter((target): target is HTMLElement => target !== null);
 
   if (lightBackgroundTargets.length === 0) return 0;
