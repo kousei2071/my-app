@@ -1,6 +1,5 @@
-import HeroSection from './components/HeroSection';
 import Header from './components/Header';
-import { AboutJourneyRow, AboutScrollStage } from './components/about';
+import { AboutJourneyRow, AboutScrollStage, HeroSection } from './components/about';
 import SkillsSection from './components/skills/SkillsSection';
 import WorksSection from './components/works/WorksSection';
 

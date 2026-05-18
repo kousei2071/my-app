@@ -1,4 +1,4 @@
- 'use client';
+'use client';
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
@@ -36,7 +36,9 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
   return (
     <section className={styles.sec} aria-labelledby="hero-title">
       <div className={styles.cnt}>
-        <h1 id="hero-title" className={styles.ttl}>{title}</h1>
+        <h1 id="hero-title" className={styles.ttl}>
+          {title}
+        </h1>
         <div className={styles.div} aria-hidden="true" />
         <p className={styles.sub}>{subtitle}</p>
       </div>
