@@ -10,21 +10,21 @@ type Milestone = {
 const milestones: Milestone[] = [
   {
     id: 'hs',
-    period: '2019.04 – 2022.03',
-    title: '〇〇高等学校',
-    description: '理系コース。プログラミングへの興味が芽生える。',
+    period: ' – 2025.03',
+    title: '大沼中学校',
+    description: '中学校を卒業',
   },
   {
     id: 'uni',
-    period: '2022.04 – 現在',
-    title: '〇〇大学',
-    description: '情報工学を専攻。Web アプリケーション開発を中心に学んでいます。',
+    period: '2024.04 – 現在',
+    title: 'プログラミングを始める',
+    description: 'プログラミングへの興味が芽生え、スクールでプログラミングを学ぶ。',
   },
   {
     id: 'portfolio',
-    period: '2025',
-    title: 'ポートフォリオサイト',
-    description: 'Next.js で設計から実装まで。自分の軸をまとめる。',
+    period: '2025.04 – ',
+    title: 'KADOKAWAドワンゴ情報工科学院入学',
+    description: 'エンジニアを専攻。Webアプリケーション開発を中心に学ぶ。',
   },
 ];
 
