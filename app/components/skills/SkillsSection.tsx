@@ -26,24 +26,24 @@ const skillGroups = [
 
 const siteStack = [
   {
-    name: 'Next.js',
+    name: 'Next.js 16.2.4',
     description: 'ページとセクションをコンポーネント単位で分けて構成しています。',
   },
   {
-    name: 'TypeScript',
-    description: 'データ構造やpropsに型をつけて、変更しやすいコードにしています。',
+    name: 'React 19.2.4',
+    description: 'コンポーネント単位でUIを分け、ページ全体を管理しやすくします。',
   },
   {
-    name: 'CSS',
+    name: 'TypeScript 5',
+    description: '型をつけて、変更しやすいコードにしています。',
+  },
+  {
+    name: 'CSS Modules',
     description: 'セクションごとにスタイルを閉じ込め、見た目の衝突を防いでいます。',
   },
   {
-    name: 'React',
-    description: 'AboutやHeaderの見え方を、スクロール位置に合わせて変化させています。',
-  },
-  {
     name: 'Tailwind CSS',
-    description: '見出し、aria-label、装飾要素のaria-hiddenを意識して実装しています。',
+    description: 'スマホやタブレット向けのレイアウトや、アニメーションを作ります。',
   },
 ];
 
