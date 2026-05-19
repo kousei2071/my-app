@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './SkillsSection.module.css';
 
 const skillGroups = [
@@ -25,7 +26,7 @@ const skillGroups = [
 
 const siteStack = [
   {
-    name: 'Next.js App Router',
+    name: 'Next.js',
     description: 'ページとセクションをコンポーネント単位で分けて構成しています。',
   },
   {
@@ -33,15 +34,15 @@ const siteStack = [
     description: 'データ構造やpropsに型をつけて、変更しやすいコードにしています。',
   },
   {
-    name: 'CSS Modules',
+    name: 'CSS',
     description: 'セクションごとにスタイルを閉じ込め、見た目の衝突を防いでいます。',
   },
   {
-    name: 'Scroll-linked UI',
+    name: 'React',
     description: 'AboutやHeaderの見え方を、スクロール位置に合わせて変化させています。',
   },
   {
-    name: 'Accessibility',
+    name: 'Tailwind CSS',
     description: '見出し、aria-label、装飾要素のaria-hiddenを意識して実装しています。',
   },
 ];
@@ -82,19 +83,36 @@ export default function SkillsSection() {
             </div>
           </div>
 
-          <div className={styles.stackCard}>
-            <p className={styles.cardLabel}>This Site Stack</p>
-            <ol className={styles.stackList}>
-              {siteStack.map((stack, index) => (
-                <li key={stack.name} className={styles.stackItem}>
-                  <span className={styles.stackNumber}>{String(index + 1).padStart(2, '0')}</span>
-                  <div>
-                    <h3 className={styles.stackTitle}>{stack.name}</h3>
-                    <p className={styles.stackDescription}>{stack.description}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+          <div className={styles.stackColumn}>
+            <div className={styles.stackCard}>
+              <p className={styles.cardLabel}>This Site Stack</p>
+              <ol className={styles.stackList}>
+                {siteStack.map((stack, index) => (
+                  <li key={stack.name} className={styles.stackItem}>
+                    <span className={styles.stackNumber}>{String(index + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3 className={styles.stackTitle}>{stack.name}</h3>
+                      <p className={styles.stackDescription}>{stack.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <a
+              href="https://github.com/"
+              className={styles.stackButton}
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="GitHubで詳しく見る"
+            >
+              <Image
+                src="/icons/search.png"
+                alt=""
+                width={22}
+                height={22}
+                className={styles.stackButtonIcon}
+              />
+            </a>
           </div>
         </div>
       </div>
