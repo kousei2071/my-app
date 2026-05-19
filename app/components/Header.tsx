@@ -50,10 +50,10 @@ const Header = () => {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="/about">About</Link>
+            <Link href="/#about">About</Link>
           </li>
           <li>
-            <Link href="/works">Works</Link>
+            <Link href="/#works">Works</Link>
           </li>
         </ul>
       </nav>
