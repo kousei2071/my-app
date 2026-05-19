@@ -23,12 +23,12 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    title: 'Framework',
+    title: 'Backend',
     description: 'コンポーネント単位でUIを分け、ページ全体を管理しやすくします。',
     skills: [
-      { name: 'React', level: 60 },
-      { name: 'Next.js', level: 55 },
-      { name: 'TypeScript', level: 50 },
+      { name: 'python', level: 60 },
+      { name: 'Java', level: 0 },
+      { name: 'Node.js', level: 10 },
     ],
   },
   {
