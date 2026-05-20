@@ -193,7 +193,10 @@ export default function SkillsSection() {
   const [stageHeight, setStageHeight] = useState<number | undefined>(undefined);
 
   const contentStageRef = useRef<HTMLDivElement>(null);
-  const scrollYRef = useRef<number | null>(null);
+  /** Stack → Skills: 切り替え後にこの位置へスクロール */
+  const scrollAfterSkillsRef = useRef<number | null>(null);
+  /** Skills → Stack: レイアウト変化中もこの位置を維持（視点を動かさない） */
+  const scrollLockYRef = useRef<number | null>(null);
   const pendingViewRef = useRef<ViewMode | null>(null);
   const particlesDoneRef = useRef<Set<number>>(new Set());
 
@@ -203,13 +206,23 @@ export default function SkillsSection() {
   const animateBars = phase === 'reveal' && view === 'skills';
 
   useLayoutEffect(() => {
-    if (scrollYRef.current === null) {
+    if (scrollAfterSkillsRef.current !== null) {
+      window.scrollTo({ top: scrollAfterSkillsRef.current, left: 0, behavior: 'instant' });
+      scrollAfterSkillsRef.current = null;
+    }
+  }, [view]);
+
+  useLayoutEffect(() => {
+    if (scrollLockYRef.current === null) {
       return;
     }
 
-    window.scrollTo(0, scrollYRef.current);
-    scrollYRef.current = null;
-  }, [view]);
+    window.scrollTo({ top: scrollLockYRef.current, left: 0, behavior: 'instant' });
+
+    if (phase === 'idle') {
+      scrollLockYRef.current = null;
+    }
+  }, [view, phase, stageHeight]);
 
   const finishBurst = useCallback(() => {
     const nextView = pendingViewRef.current;
@@ -245,8 +258,14 @@ export default function SkillsSection() {
     }
 
     const nextView: ViewMode = view === 'stack' ? 'skills' : 'stack';
-    const offset = nextView === 'skills' ? SKILLS_VIEW_SCROLL_OFFSET : 0;
-    scrollYRef.current = window.scrollY + offset;
+
+    if (nextView === 'skills') {
+      scrollAfterSkillsRef.current = window.scrollY + SKILLS_VIEW_SCROLL_OFFSET;
+      scrollLockYRef.current = null;
+    } else {
+      scrollAfterSkillsRef.current = null;
+      scrollLockYRef.current = window.scrollY;
+    }
 
     if (reduceMotion) {
       setView(nextView);
@@ -264,7 +283,12 @@ export default function SkillsSection() {
       (card) => card.getBoundingClientRect(),
     );
 
-    setStageHeight(stage.offsetHeight);
+    // 高さロックは Stack → Skills のみ（Skills → Stack で minHeight 解除時のガクつきを防ぐ）
+    if (nextView === 'skills') {
+      setStageHeight(stage.offsetHeight);
+    } else {
+      setStageHeight(undefined);
+    }
     particlesDoneRef.current.clear();
     pendingViewRef.current = nextView;
     setParticles(createParticles(containerRect, cardRects));
@@ -349,7 +373,13 @@ export default function SkillsSection() {
             <motion.div
               key={view}
               className={styles.contentReveal}
-              initial={phase === 'reveal' && !reduceMotion ? { opacity: 0, y: 14 } : false}
+              initial={
+                phase === 'reveal' && !reduceMotion
+                  ? view === 'stack'
+                    ? { opacity: 0 }
+                    : { opacity: 0, y: 14 }
+                  : false
+              }
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: REVEAL_DURATION, ease: [0.22, 1, 0.36, 1] }}
               onAnimationComplete={() => {
