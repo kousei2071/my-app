@@ -42,7 +42,7 @@ type AboutScrollStageProps = {
 };
 
 /** reveal アニメーションの長さ（ms）。prefers-reduced-motion では使わない */
-const REVEAL_DURATION_MS = 720;
+const REVEAL_DURATION_MS = 1720;
 
 function easeOutCubic(t: number): number {
   return 1 - (1 - t) ** 3;
