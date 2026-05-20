@@ -4,14 +4,15 @@
   position: relative;
   z-index: 0;
   background-color: #ffffff;
-  border-top: 1px solid #e5e7eb;
   scroll-margin-top: 5rem;
+  margin-top: -2vh;
+  padding-block: clamp(2rem, 4vh, 3.5rem) 0;
 }
 
 .inner {
   max-width: 72rem;
   margin: 0 auto;
-  padding: clamp(3.5rem, 9vw, 5.5rem) clamp(1.25rem, 5vw, 3rem);
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 5vw, 3rem) clamp(3.5rem, 9vw, 5.5rem);
 }
 
 .heading {
