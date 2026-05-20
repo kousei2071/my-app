@@ -60,6 +60,43 @@
   margin-top: clamp(-1.5rem, -3vw, -0.75rem);
 }
 
+.contentStage {
+  position: relative;
+}
+
+.contentReveal {
+  position: relative;
+  z-index: 1;
+}
+
+.cardsHidden {
+  visibility: hidden;
+}
+
+.particleLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  margin: 0;
+  border-radius: 1px;
+  background: #0a0a0a;
+  transform-origin: center center;
+}
+
+.particle:nth-child(3n) {
+  background: #525252;
+}
+
+.particle:nth-child(5n) {
+  background: #a3a3a3;
+}
+
 .listHeader {
   display: flex;
   align-items: center;
@@ -260,6 +297,11 @@
   background: #ffffff;
   box-shadow: 0 6px 18px rgb(10 10 10 / 14%);
   cursor: pointer;
+}
+
+.toggleButton:disabled {
+  cursor: wait;
+  opacity: 0.55;
 }
 
 .toggleButton:focus-visible {
