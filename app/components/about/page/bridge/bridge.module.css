@@ -1,0 +1,14 @@
+/* プロフィール → 経歴の橋渡し（スクロールチャプター用の余白） */
+
+.bridge {
+  position: relative;
+  /* スクロール意図の検知用（経歴側の余白は #career の padding で確保） */
+  min-height: clamp(22vh, 30vh, 38vh);
+  background-color: #ffffff;
+  pointer-events: none;
+}
+
+.bridgeReduced {
+  min-height: 0;
+  height: 0;
+}

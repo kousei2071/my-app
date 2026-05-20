@@ -1,10 +1,10 @@
 'use client';
 
 import { motion, type Variants } from 'framer-motion';
-import AboutPageEngineerDeco from './AboutPageEngineerDeco';
+import EngineerDeco from './EngineerDeco';
+import { PROFILE_META } from './content/profileMeta';
 import { GitHubIcon, MessageIcon } from './icons';
-import { PROFILE_META } from './profileMeta';
-import styles from './styles/AboutDetailView.module.css';
+import styles from './profile.module.css';
 
 const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -12,6 +12,15 @@ const asideStagger: Variants = {
   hidden: {},
   show: {
     transition: { staggerChildren: 0.12, delayChildren: 0.12 },
+  },
+};
+
+const asideItemIdle: Variants = {
+  hidden: { opacity: 0, x: 0, filter: 'none' },
+  show: {
+    opacity: 0,
+    x: 0,
+    filter: 'none',
   },
 };
 
@@ -25,29 +34,32 @@ const asideItem: Variants = {
   },
 };
 
-type AboutPageAsideProps = {
+type AsideProps = {
+  active: boolean;
   githubHref: string;
   contactHref: string;
 };
 
-export default function AboutPageAside({ githubHref, contactHref }: AboutPageAsideProps) {
+export default function Aside({ active, githubHref, contactHref }: AsideProps) {
   const [hobbyA, hobbyB] = PROFILE_META.hobbies;
+  const item = active ? asideItem : asideItemIdle;
 
   return (
     <motion.aside
       className={styles.asideColumn}
       aria-label="プロフィール補足"
+      aria-hidden={!active}
       variants={asideStagger}
       initial="hidden"
-      animate="show"
+      animate={active ? 'show' : 'hidden'}
     >
-      <motion.div className={styles.statusCard} variants={asideItem}>
+      <motion.div className={styles.statusCard} variants={item}>
         <p className={styles.statusLabel}>Status</p>
         <p className={styles.statusSchool}>{PROFILE_META.school}</p>
         <p className={styles.statusMajor}>{PROFILE_META.major}</p>
       </motion.div>
 
-      <motion.nav className={styles.asideActions} aria-label="リンク" variants={asideItem}>
+      <motion.nav className={styles.asideActions} aria-label="リンク" variants={item}>
         <a
           className={styles.actionButton}
           href={githubHref}
@@ -63,7 +75,7 @@ export default function AboutPageAside({ githubHref, contactHref }: AboutPageAsi
         </a>
       </motion.nav>
 
-      <motion.div className={styles.metaCompact} variants={asideItem}>
+      <motion.div className={styles.metaCompact} variants={item}>
         <div className={styles.metaRow}>
           <p className={styles.metaLabel}>趣味</p>
           <p className={styles.metaText}>
@@ -81,8 +93,8 @@ export default function AboutPageAside({ githubHref, contactHref }: AboutPageAsi
         </div>
       </motion.div>
 
-      <motion.div variants={asideItem}>
-        <AboutPageEngineerDeco />
+      <motion.div variants={item}>
+        <EngineerDeco />
       </motion.div>
     </motion.aside>
   );

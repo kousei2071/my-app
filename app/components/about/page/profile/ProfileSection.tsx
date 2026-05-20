@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { animate, motion, useMotionValue, useReducedMotion, type Variants } from 'framer-motion';
-import AboutPageAside from './AboutPageAside';
-import styles from './styles/AboutDetailView.module.css';
+import Aside from './Aside';
+import styles from './profile.module.css';
 
 const PROFILE = {
   nameJa: '富田 幸聖',
@@ -19,8 +19,6 @@ const LINKS = {
 };
 
 const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-const LAYOUT_TRANSITION = { duration: 0.9, ease: EASE_OUT };
 
 const slideFromRight: Variants = {
   hidden: {
@@ -66,21 +64,12 @@ const profileStagger: Variants = {
   },
 };
 
-const bgTitleVariant: Variants = {
-  hidden: { opacity: 0, x: 40 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 1.2, ease: EASE_OUT },
-  },
-};
-
 const staticShow: Variants = {
   hidden: { opacity: 1, x: 0, filter: 'none' },
   show: { opacity: 1, x: 0, filter: 'none' },
 };
 
-export default function AboutPageProfile() {
+export default function ProfileSection() {
   const reduceMotion = useReducedMotion();
   const [phase, setPhase] = useState<'intro' | 'split'>('intro');
   const columnX = useMotionValue(0);
@@ -98,7 +87,6 @@ export default function AboutPageProfile() {
   const item = reduceMotion ? staticShow : slideFromRight;
   const title = reduceMotion ? staticShow : titleVariant;
   const stagger = reduceMotion ? staticShow : profileStagger;
-  const bg = reduceMotion ? staticShow : bgTitleVariant;
 
   const handleIntroComplete = useCallback(
     (definition: string) => {
@@ -113,37 +101,20 @@ export default function AboutPageProfile() {
 
   return (
     <section id="profile" className={styles.profileSection} aria-labelledby="detail-about-title">
-      <motion.p
-        className={styles.bgTitleLeft}
-        aria-hidden="true"
-        variants={bg}
-        initial="hidden"
-        animate="show"
-        transition={{ delay: 0.05 }}
-      >
-        ABOUT
-      </motion.p>
-      <motion.p
-        className={styles.bgTitleRight}
-        aria-hidden="true"
-        variants={bg}
-        initial="hidden"
-        animate="show"
-        transition={{ delay: 0.12 }}
-      >
-        ABOUT
-      </motion.p>
+      <div className={styles.bgLayer} aria-hidden="true">
+        <div className={styles.bgTitleLeftWrap}>
+          <p className={styles.bgTitleText}>ABOUT</p>
+        </div>
+        <p className={`${styles.bgTitleText} ${styles.bgTitleRight}`}>ABOUT</p>
+      </div>
 
       <motion.div
-        layout
-        className={`${styles.profileContainer} ${isSplit ? styles.profileContainerSplit : ''}`}
-        transition={{ layout: LAYOUT_TRANSITION }}
+        className={`${styles.profileContainer} ${styles.profileContainerSplit} ${!isSplit ? styles.profileContainerIntro : ''}`}
       >
         <motion.div
-          layout
           className={styles.profileColumn}
           style={{ x: columnX }}
-          transition={{ layout: LAYOUT_TRANSITION }}
+          transition={{ duration: 0.92, ease: EASE_OUT }}
         >
           <motion.div
             className={styles.profileMessage}
@@ -177,7 +148,13 @@ export default function AboutPageProfile() {
           </motion.div>
         </motion.div>
 
-        {isSplit && <AboutPageAside githubHref={LINKS.github} contactHref={LINKS.contact} />}
+        <div className={!isSplit ? styles.asideInert : undefined} aria-hidden={!isSplit}>
+          <Aside
+            active={isSplit}
+            githubHref={LINKS.github}
+            contactHref={LINKS.contact}
+          />
+        </div>
       </motion.div>
     </section>
   );
