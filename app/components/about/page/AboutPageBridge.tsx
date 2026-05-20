@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './styles/AboutPageBridge.module.css';
 
-/** 蓄積スクロール量がこの値を超えたらスナップ */
 const INTENT_TOTAL = 40;
 const ACCUM_RESET_MS = 280;
 const TOUCH_THRESHOLD = 26;
@@ -11,15 +10,23 @@ const SCROLL_LOCK_MS = 1050;
 
 type SnapPhase = 'profile' | 'career';
 
-function scrollElementToViewportCenter(el: HTMLElement, behavior: ScrollBehavior) {
-  const rect = el.getBoundingClientRect();
-  const targetY = window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2;
-  window.scrollTo({ top: Math.max(0, targetY), behavior });
+function getElementDocBottom(el: HTMLElement): number {
+  const r = el.getBoundingClientRect();
+  return window.scrollY + r.bottom;
+}
+
+function getElementDocTop(el: HTMLElement): number {
+  const r = el.getBoundingClientRect();
+  return window.scrollY + r.top;
+}
+
+function getElementDocCenter(el: HTMLElement): number {
+  const r = el.getBoundingClientRect();
+  return window.scrollY + r.top + r.height / 2;
 }
 
 /**
  * プロフィール ↔ 経歴の橋渡しゾーン（案A・双方向）。
- * 下: 経歴見出しを画面中央へ / 上: プロフィールを画面中央へ
  */
 export default function AboutPageBridge() {
   const bridgeRef = useRef<HTMLDivElement>(null);
@@ -32,7 +39,6 @@ export default function AboutPageBridge() {
   const accumResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartYRef = useRef<number | null>(null);
   const touchAccumRef = useRef(0);
-  const touchDirRef = useRef<'down' | 'up' | null>(null);
   const lastScrollYRef = useRef(0);
   const [reduceMotion, setReduceMotion] = useState(false);
 
@@ -53,38 +59,49 @@ export default function AboutPageBridge() {
     }
   }, []);
 
+  const finishTransition = useCallback(() => {
+    window.setTimeout(() => {
+      transitioningRef.current = false;
+    }, reduceMotion ? 0 : SCROLL_LOCK_MS);
+  }, [reduceMotion]);
+
   const snapToCareer = useCallback(() => {
-    const target =
-      document.getElementById('career-title') ?? document.getElementById('career');
-    if (!target || transitioningRef.current) return;
+    const profile = document.getElementById('profile');
+    const career = document.getElementById('career');
+    if (!career || !profile || transitioningRef.current) return;
 
     transitioningRef.current = true;
     phaseRef.current = 'career';
     clearIntent();
     touchAccumRef.current = 0;
 
-    scrollElementToViewportCenter(target, reduceMotion ? 'auto' : 'smooth');
+    const behavior = reduceMotion ? 'auto' : 'smooth';
+    const careerTitle = document.getElementById('career-title');
+    const titleOffset = Math.min(window.innerHeight * 0.16, 140);
+    const top = careerTitle
+      ? Math.max(getElementDocTop(careerTitle) - titleOffset, getElementDocBottom(profile) + 12)
+      : Math.max(getElementDocTop(career), getElementDocBottom(profile) + 12);
 
-    window.setTimeout(() => {
-      transitioningRef.current = false;
-    }, reduceMotion ? 0 : SCROLL_LOCK_MS);
-  }, [reduceMotion, clearIntent]);
+    window.scrollTo({ top, behavior });
+    finishTransition();
+  }, [reduceMotion, clearIntent, finishTransition]);
 
   const snapToProfile = useCallback(() => {
-    const target = document.getElementById('profile');
-    if (!target || transitioningRef.current) return;
+    const profile = document.getElementById('profile');
+    if (!profile || transitioningRef.current) return;
 
     transitioningRef.current = true;
     phaseRef.current = 'profile';
     clearIntent();
     touchAccumRef.current = 0;
 
-    scrollElementToViewportCenter(target, reduceMotion ? 'auto' : 'smooth');
-
-    window.setTimeout(() => {
-      transitioningRef.current = false;
-    }, reduceMotion ? 0 : SCROLL_LOCK_MS);
-  }, [reduceMotion, clearIntent]);
+    /* 下から上へ戻るときはページ最上部まで */
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+    finishTransition();
+  }, [reduceMotion, clearIntent, finishTransition]);
 
   const addIntent = useCallback(
     (direction: 'down' | 'up', amount: number) => {
@@ -105,9 +122,7 @@ export default function AboutPageBridge() {
       if (accumResetTimerRef.current !== null) {
         clearTimeout(accumResetTimerRef.current);
       }
-      accumResetTimerRef.current = setTimeout(() => {
-        clearIntent();
-      }, ACCUM_RESET_MS);
+      accumResetTimerRef.current = setTimeout(clearIntent, ACCUM_RESET_MS);
 
       if (intentAccumRef.current >= INTENT_TOTAL) {
         if (direction === 'down') snapToCareer();
@@ -130,16 +145,13 @@ export default function AboutPageBridge() {
       if (transitioningRef.current) return;
 
       const profile = document.getElementById('profile');
+      const career = document.getElementById('career');
       const careerTitle = document.getElementById('career-title');
-      if (!profile || !careerTitle) return;
+      if (!profile || !career || !careerTitle) return;
 
-      const py = profile.getBoundingClientRect().top + profile.getBoundingClientRect().height / 2;
-      const cy =
-        careerTitle.getBoundingClientRect().top +
-        careerTitle.getBoundingClientRect().height / 2;
-      const mid = window.innerHeight / 2;
-      const profileDist = Math.abs(py - mid);
-      const careerDist = Math.abs(cy - mid);
+      const viewportMid = window.scrollY + window.innerHeight / 2;
+      const profileDist = Math.abs(getElementDocCenter(profile) - viewportMid);
+      const careerDist = Math.abs(getElementDocCenter(careerTitle) - viewportMid);
 
       if (careerDist < profileDist && careerDist < window.innerHeight * 0.38) {
         phaseRef.current = 'career';
@@ -165,7 +177,7 @@ export default function AboutPageBridge() {
       syncPhaseFromScroll();
     };
 
-    const observer = new IntersectionObserver(() => syncZones(), {
+    const observer = new IntersectionObserver(syncZones, {
       threshold: [0, 0.05, 0.15, 0.35, 0.55],
     });
 
@@ -211,7 +223,6 @@ export default function AboutPageBridge() {
     const onTouchStart = (e: TouchEvent) => {
       touchStartYRef.current = e.touches[0]?.clientY ?? null;
       touchAccumRef.current = 0;
-      touchDirRef.current = null;
     };
 
     const onTouchMove = (e: TouchEvent) => {
@@ -234,19 +245,12 @@ export default function AboutPageBridge() {
       }
 
       e.preventDefault();
-
-      if (touchDirRef.current !== dir) {
-        touchDirRef.current = dir;
-        touchAccumRef.current = 0;
-      }
-
       touchAccumRef.current += Math.abs(delta);
       touchStartYRef.current = y;
 
       if (touchAccumRef.current >= TOUCH_THRESHOLD) {
         touchStartYRef.current = null;
         touchAccumRef.current = 0;
-        touchDirRef.current = null;
         if (dir === 'down') snapToCareer();
         else snapToProfile();
       }
@@ -255,7 +259,6 @@ export default function AboutPageBridge() {
     const onTouchEnd = () => {
       touchStartYRef.current = null;
       touchAccumRef.current = 0;
-      touchDirRef.current = null;
     };
 
     syncZones();

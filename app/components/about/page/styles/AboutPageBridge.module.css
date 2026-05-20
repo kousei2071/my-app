@@ -2,8 +2,8 @@
 
 .bridge {
   position: relative;
-  /* プロフィール下端〜経歴中央スナップまでの「一章」分の余白 */
-  min-height: clamp(28vh, 38vh, 48vh);
+  /* スクロール意図の検知用（経歴側の余白は #career の padding で確保） */
+  min-height: clamp(22vh, 30vh, 38vh);
   background-color: #ffffff;
   pointer-events: none;
 }
