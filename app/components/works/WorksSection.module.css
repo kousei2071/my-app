@@ -114,6 +114,48 @@
     #0a0a0a;
 }
 
+.previewImage {
+  background: #f5f5f5;
+}
+
+.previewChrome {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.9rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.previewDot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: #d4d4d4;
+}
+
+.previewDot:nth-child(2) {
+  background: #a3a3a3;
+}
+
+.previewDot:nth-child(3) {
+  background: #737373;
+}
+
+.previewViewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.previewImg {
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(100%) contrast(1.04) brightness(0.92);
+}
+
 .preview > span {
   position: absolute;
   top: 0.85rem;
@@ -265,5 +307,4 @@
   .card {
     transition: none;
   }
-
 }

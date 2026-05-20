@@ -27,8 +27,8 @@ export const siteStack = [
     description: 'セクションごとにスタイルを閉じ込め、見た目の衝突を防いでいます。',
   },
   {
-    name: 'Tailwind CSS',
-    description: 'スマホやタブレット向けのレイアウトや、アニメーションを作ります。',
+    name: 'framer-motion',
+    description: '細かいアニメーションから大きなアニメーションまでを作ります。',
   },
 ] as const;
 
