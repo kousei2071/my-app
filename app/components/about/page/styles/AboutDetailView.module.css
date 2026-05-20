@@ -57,11 +57,18 @@
 }
 
 .profileContainerSplit {
+  --about-title-size: clamp(4rem, 18vw, 11.5rem);
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 46%) minmax(0, 1fr);
-  align-items: center;
+  align-items: start;
   justify-content: stretch;
   gap: clamp(2rem, 5vw, 4rem);
+}
+
+/* ABOUT 見出しのインク上端に Status 上端を合わせる（line-height / titleWrap 分） */
+.profileContainerSplit .asideColumn {
+  padding-top: calc(var(--about-title-size) * 0.1);
 }
 
 .profileColumn {
@@ -92,7 +99,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-start;
   gap: clamp(1rem, 2.5vw, 1.35rem);
   width: 100%;
   max-width: 22rem;
@@ -225,6 +232,7 @@
     max-width: none;
     margin-left: 0;
     padding-right: 0;
+    padding-top: 0;
   }
 
   .statusSchool {
