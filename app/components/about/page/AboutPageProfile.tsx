@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { animate, motion, useMotionValue, useReducedMotion, type Variants } from 'framer-motion';
-import { GitHubIcon, MessageIcon } from './icons';
+import AboutPageAside from './AboutPageAside';
 import styles from './styles/AboutDetailView.module.css';
 
 const PROFILE = {
@@ -78,23 +78,6 @@ const bgTitleVariant: Variants = {
 const staticShow: Variants = {
   hidden: { opacity: 1, x: 0, filter: 'none' },
   show: { opacity: 1, x: 0, filter: 'none' },
-};
-
-const actionItem: Variants = {
-  hidden: { opacity: 0, x: 56, filter: 'blur(8px)' },
-  show: {
-    opacity: 1,
-    x: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.75, ease: EASE_OUT },
-  },
-};
-
-const actionStagger: Variants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.14, delayChildren: 0.2 },
-  },
 };
 
 export default function AboutPageProfile() {
@@ -194,30 +177,7 @@ export default function AboutPageProfile() {
           </motion.div>
         </motion.div>
 
-        {isSplit && (
-          <motion.nav
-            className={styles.actionsColumn}
-            aria-label="リンク"
-            variants={actionStagger}
-            initial="hidden"
-            animate="show"
-          >
-            <motion.a
-              className={styles.actionButton}
-              href={LINKS.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              variants={actionItem}
-            >
-              <GitHubIcon className={styles.actionIcon} />
-              <span>GitHub</span>
-            </motion.a>
-            <motion.a className={styles.actionButton} href={LINKS.contact} variants={actionItem}>
-              <MessageIcon className={styles.actionIcon} />
-              <span>Contact</span>
-            </motion.a>
-          </motion.nav>
-        )}
+        {isSplit && <AboutPageAside githubHref={LINKS.github} contactHref={LINKS.contact} />}
       </motion.div>
     </section>
   );

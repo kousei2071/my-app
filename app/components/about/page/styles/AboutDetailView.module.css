@@ -88,14 +88,100 @@
   max-width: 100%;
 }
 
-.actionsColumn {
+.asideColumn {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: stretch;
   justify-content: center;
   gap: clamp(1rem, 2.5vw, 1.35rem);
+  width: 100%;
+  max-width: 22rem;
   min-width: 0;
+  margin-left: auto;
   padding-right: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+/* Status — ボタンと同系の枠・サイズ、左だけ黒アクセント */
+.statusCard {
+  width: 100%;
+  padding: clamp(0.85rem, 2vw, 1rem) clamp(1rem, 2.5vw, 1.25rem);
+  padding-left: clamp(1rem, 2.5vw, 1.2rem);
+  border: 2px solid #0a0a0a;
+  border-left-width: 5px;
+  background-color: #0a0a0a;
+  color: #fafafa;
+}
+
+.statusLabel {
+  margin: 0 0 0.4rem;
+  font-size: clamp(0.5625rem, 1.2vw, 0.625rem);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #a3a3a3;
+}
+
+.statusSchool {
+  margin: 0 0 0.25rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.8125rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: #fafafa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusMajor {
+  margin: 0;
+  font-size: clamp(0.75rem, 1.5vw, 0.8125rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #d4d4d4;
+}
+
+.asideActions {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.85rem, 2vw, 1rem);
+  width: 100%;
+}
+
+.metaCompact {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0;
+  text-align: right;
+}
+
+.metaRow {
+  margin: 0;
+}
+
+.metaLabel {
+  margin: 0 0 0.15rem;
+  font-size: clamp(0.5625rem, 1.2vw, 0.625rem);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #a3a3a3;
+}
+
+.metaText {
+  margin: 0;
+  font-size: clamp(0.75rem, 1.5vw, 0.8125rem);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.03em;
+  color: #737373;
+}
+
+.metaSep {
+  color: #d4d4d4;
+  font-weight: 400;
 }
 
 .actionButton {
@@ -135,9 +221,14 @@
     gap: clamp(2.5rem, 8vw, 3.5rem);
   }
 
-  .actionsColumn {
-    align-items: stretch;
+  .asideColumn {
+    max-width: none;
+    margin-left: 0;
     padding-right: 0;
+  }
+
+  .statusSchool {
+    white-space: normal;
   }
 
   .actionButton {
