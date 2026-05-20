@@ -66,15 +66,6 @@ const profileStagger: Variants = {
   },
 };
 
-const bgTitleVariant: Variants = {
-  hidden: { opacity: 0, x: 40 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 1.2, ease: EASE_OUT },
-  },
-};
-
 const staticShow: Variants = {
   hidden: { opacity: 1, x: 0, filter: 'none' },
   show: { opacity: 1, x: 0, filter: 'none' },
@@ -98,7 +89,6 @@ export default function AboutPageProfile() {
   const item = reduceMotion ? staticShow : slideFromRight;
   const title = reduceMotion ? staticShow : titleVariant;
   const stagger = reduceMotion ? staticShow : profileStagger;
-  const bg = reduceMotion ? staticShow : bgTitleVariant;
 
   const handleIntroComplete = useCallback(
     (definition: string) => {
@@ -113,26 +103,12 @@ export default function AboutPageProfile() {
 
   return (
     <section id="profile" className={styles.profileSection} aria-labelledby="detail-about-title">
-      <motion.p
-        className={styles.bgTitleLeft}
-        aria-hidden="true"
-        variants={bg}
-        initial="hidden"
-        animate="show"
-        transition={{ delay: 0.05 }}
-      >
-        ABOUT
-      </motion.p>
-      <motion.p
-        className={styles.bgTitleRight}
-        aria-hidden="true"
-        variants={bg}
-        initial="hidden"
-        animate="show"
-        transition={{ delay: 0.12 }}
-      >
-        ABOUT
-      </motion.p>
+      <div className={styles.bgLayer} aria-hidden="true">
+        <div className={styles.bgTitleLeftWrap}>
+          <p className={styles.bgTitleText}>ABOUT</p>
+        </div>
+        <p className={`${styles.bgTitleText} ${styles.bgTitleRight}`}>ABOUT</p>
+      </div>
 
       <motion.div
         layout
@@ -177,7 +153,21 @@ export default function AboutPageProfile() {
           </motion.div>
         </motion.div>
 
-        {isSplit && <AboutPageAside githubHref={LINKS.github} contactHref={LINKS.contact} />}
+        {isSplit ? (
+          <AboutPageAside
+            active
+            githubHref={LINKS.github}
+            contactHref={LINKS.contact}
+          />
+        ) : (
+          <div className={styles.asideReserve} aria-hidden>
+            <AboutPageAside
+              active={false}
+              githubHref={LINKS.github}
+              contactHref={LINKS.contact}
+            />
+          </div>
+        )}
       </motion.div>
     </section>
   );

@@ -15,14 +15,41 @@
   isolation: isolate;
   overflow-x: clip;
   overflow-y: visible;
+  min-height: clamp(42rem, 88vh, 54rem);
   padding: clamp(7rem, 18vw, 10rem) clamp(1.25rem, 5vw, 5rem) clamp(4rem, 10vw, 6rem);
   background-color: #ffffff;
   scroll-margin-top: 5rem;
 }
 
-.bgTitleLeft,
-.bgTitleRight {
+/* セクション高さが伸びても背景文字は動かさない（Works と同じ bottom/top、固定高さレイヤー内） */
+.bgLayer {
   position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(36rem, 74vh, 48rem);
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bgLayer {
+    animation: profileBgReveal 1.15s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+  }
+}
+
+@keyframes profileBgReveal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.bgTitleText {
   margin: 0;
   font-size: clamp(7rem, 15vw, 13.5rem);
   font-weight: 900;
@@ -32,16 +59,17 @@
   text-orientation: mixed;
   user-select: none;
   color: rgb(10 10 10 / 6%);
-  z-index: 0;
 }
 
-.bgTitleLeft {
+.bgTitleLeftWrap {
+  position: absolute;
   left: clamp(0.25rem, 1vw, 0.9rem);
   bottom: clamp(-0.5rem, -0.5vw, 0rem);
   transform: rotate(180deg);
 }
 
 .bgTitleRight {
+  position: absolute;
   top: clamp(-0.5rem, -0.5vw, 0rem);
   right: clamp(0.25rem, 1vw, 0.9rem);
 }
@@ -167,6 +195,7 @@
   margin: 0 auto;
   display: flex;
   justify-content: flex-end;
+  align-items: flex-start;
   width: 100%;
 }
 
@@ -178,6 +207,17 @@
   align-items: start;
   justify-content: stretch;
   gap: clamp(2rem, 5vw, 4rem);
+  width: 100%;
+}
+
+/* intro 中: 右カラム分の高さだけ確保（レイアウトは flex のまま） */
+.asideReserve {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(54%, 22rem);
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* ABOUT 見出しのインク上端に Status 上端を合わせる（line-height / titleWrap 分） */
@@ -423,144 +463,6 @@
 }
 
 /* ========================================
-   経歴（縦軸なし・カードのみ）
-   ======================================== */
-
-.journeySection {
-  position: relative;
-  z-index: 0;
-  isolation: isolate;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  background-color: #0a0a0a;
-  color: #fafafa;
-  scroll-margin-top: 5rem;
-}
-
-.journeyInner {
-  position: relative;
-  z-index: 1;
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 3rem);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.journeyHeading {
-  width: 100%;
-  max-width: 42rem;
-  margin: 0 0 clamp(2rem, 5vw, 3rem);
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  text-align: left;
-}
-
-.journeyEyebrow {
-  font-size: clamp(0.6875rem, 1.2vw, 0.8125rem);
-  font-weight: 700;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: #a3a3a3;
-}
-
-.journeyMain {
-  font-size: clamp(1.5rem, 4.2vw, 2.75rem);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  line-height: 1.15;
-  color: #fafafa;
-}
-
-.timeline {
-  width: 100%;
-  max-width: 42rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(1.25rem, 3vw, 1.75rem);
-}
-
-.event {
-  margin: 0;
-  padding: 0;
-}
-
-.card {
-  position: relative;
-  scroll-margin-top: clamp(5rem, 12vw, 7rem);
-  margin: 0;
-  padding: clamp(1rem, 2.5vw, 1.35rem) clamp(1rem, 2.5vw, 1.5rem);
-  padding-top: clamp(1.25rem, 3vw, 1.75rem);
-  border-radius: 0;
-  border: 1px solid rgb(250 250 250 / 10%);
-  border-left: none;
-  background-color: #171717;
-  box-shadow: none;
-  overflow: hidden;
-}
-
-.index {
-  position: absolute;
-  top: 0.15rem;
-  right: 0.35rem;
-  font-size: clamp(3.25rem, 12vw, 5.5rem);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: rgb(250 250 250 / 8%);
-  pointer-events: none;
-  user-select: none;
-}
-
-.period {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 0.5rem;
-  font-size: clamp(0.8125rem, 1.8vw, 0.9375rem);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.12em;
-  color: #a3a3a3;
-}
-
-.cardTitle {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 0.5rem;
-  font-size: clamp(1.125rem, 2.8vw, 1.5rem);
-  font-weight: 800;
-  color: #fafafa;
-  line-height: 1.25;
-  letter-spacing: 0.02em;
-}
-
-.cardBody {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 0.75rem;
-  font-size: clamp(1rem, 2.2vw, 1.125rem);
-  line-height: 1.65;
-  color: #d4d4d4;
-}
-
-.cardDetail {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(250, 250, 250, 0.12);
-  font-size: clamp(0.9375rem, 2vw, 1rem);
-  line-height: 1.7;
-  color: #a3a3a3;
-}
-
-/* ========================================
    戻るリンク
    ======================================== */
 
@@ -589,16 +491,8 @@
   color: #fafafa;
 }
 
-@media (min-width: 640px) {
-  .card {
-    padding: clamp(1.15rem, 2.8vw, 1.5rem) clamp(1.15rem, 3vw, 1.65rem);
-    padding-top: clamp(1.35rem, 3.2vw, 1.85rem);
-  }
-}
-
 @media (max-width: 640px) {
-  .bgTitleLeft,
-  .bgTitleRight {
+  .bgTitleText {
     font-size: clamp(5rem, 26vw, 8.5rem);
   }
 }

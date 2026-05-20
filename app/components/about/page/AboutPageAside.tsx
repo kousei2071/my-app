@@ -15,6 +15,15 @@ const asideStagger: Variants = {
   },
 };
 
+const asideItemIdle: Variants = {
+  hidden: { opacity: 0, x: 0, filter: 'none' },
+  show: {
+    opacity: 0,
+    x: 0,
+    filter: 'none',
+  },
+};
+
 const asideItem: Variants = {
   hidden: { opacity: 0, x: 56, filter: 'blur(8px)' },
   show: {
@@ -26,28 +35,31 @@ const asideItem: Variants = {
 };
 
 type AboutPageAsideProps = {
+  active: boolean;
   githubHref: string;
   contactHref: string;
 };
 
-export default function AboutPageAside({ githubHref, contactHref }: AboutPageAsideProps) {
+export default function AboutPageAside({ active, githubHref, contactHref }: AboutPageAsideProps) {
   const [hobbyA, hobbyB] = PROFILE_META.hobbies;
+  const item = active ? asideItem : asideItemIdle;
 
   return (
     <motion.aside
       className={styles.asideColumn}
       aria-label="プロフィール補足"
+      aria-hidden={!active}
       variants={asideStagger}
       initial="hidden"
-      animate="show"
+      animate={active ? 'show' : 'hidden'}
     >
-      <motion.div className={styles.statusCard} variants={asideItem}>
+      <motion.div className={styles.statusCard} variants={item}>
         <p className={styles.statusLabel}>Status</p>
         <p className={styles.statusSchool}>{PROFILE_META.school}</p>
         <p className={styles.statusMajor}>{PROFILE_META.major}</p>
       </motion.div>
 
-      <motion.nav className={styles.asideActions} aria-label="リンク" variants={asideItem}>
+      <motion.nav className={styles.asideActions} aria-label="リンク" variants={item}>
         <a
           className={styles.actionButton}
           href={githubHref}
@@ -63,7 +75,7 @@ export default function AboutPageAside({ githubHref, contactHref }: AboutPageAsi
         </a>
       </motion.nav>
 
-      <motion.div className={styles.metaCompact} variants={asideItem}>
+      <motion.div className={styles.metaCompact} variants={item}>
         <div className={styles.metaRow}>
           <p className={styles.metaLabel}>趣味</p>
           <p className={styles.metaText}>
@@ -81,7 +93,7 @@ export default function AboutPageAside({ githubHref, contactHref }: AboutPageAsi
         </div>
       </motion.div>
 
-      <motion.div variants={asideItem}>
+      <motion.div variants={item}>
         <AboutPageEngineerDeco />
       </motion.div>
     </motion.aside>
