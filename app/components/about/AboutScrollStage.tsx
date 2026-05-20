@@ -125,7 +125,7 @@ export default function AboutScrollStage({ children }: AboutScrollStageProps) {
 
   if (preferReducedMotion) {
     return (
-      <div className={styles.stage}>
+      <div id="about-stage" className={styles.stage}>
         <div id="about-scroll-hit" className={styles.hit}>
           {children}
         </div>
@@ -134,7 +134,7 @@ export default function AboutScrollStage({ children }: AboutScrollStageProps) {
   }
 
   return (
-    <div className={styles.stage}>
+    <div id="about-stage" className={styles.stage}>
       <AboutScrollProvider value={scrollValue}>
         <div id="about-scroll-hit" ref={hitRef} className={styles.hit}>
           {children}
