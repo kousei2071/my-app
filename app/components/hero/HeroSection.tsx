@@ -47,10 +47,11 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
         </div>
       </div>
       <Image
-        src="/myline.png"
+        src="/myline.webp"
         alt=""
         fill
         priority
+        quality={80}
         sizes="100vw"
         className={styles.bg}
       />
