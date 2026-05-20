@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, type Variants } from 'framer-motion';
+import AboutPageEngineerDeco from './AboutPageEngineerDeco';
 import { GitHubIcon, MessageIcon } from './icons';
 import { PROFILE_META } from './profileMeta';
 import styles from './styles/AboutDetailView.module.css';
@@ -78,6 +79,10 @@ export default function AboutPageAside({ githubHref, contactHref }: AboutPageAsi
           <p className={styles.metaLabel}>出身地</p>
           <p className={styles.metaText}>{PROFILE_META.birthplace}</p>
         </div>
+      </motion.div>
+
+      <motion.div variants={asideItem}>
+        <AboutPageEngineerDeco />
       </motion.div>
     </motion.aside>
   );
