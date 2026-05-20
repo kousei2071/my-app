@@ -1,5 +1,5 @@
 /**
- * /about 第2章「経歴」内の理念（このファイルだけ編集）
+ * 第2章「経歴」内の理念（career/content/ — このファイルだけ編集）
  */
 
 export type PhilosophyItem = {

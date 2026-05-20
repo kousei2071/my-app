@@ -1,9 +1,9 @@
-import { credentials } from './credentialsContent';
-import { philosophyContent } from './philosophyContent';
-import styles from './styles/AboutPageJourney.module.css';
+import { credentials } from './content/credentialsContent';
+import { philosophyContent } from './content/philosophyContent';
+import styles from './career.module.css';
 
 /** 経歴章の下半分 — 理念と資格をセットで表示 */
-export default function AboutPageCareerValues() {
+export default function CareerValues() {
   const hasCredentials = credentials.length > 0;
 
   return (

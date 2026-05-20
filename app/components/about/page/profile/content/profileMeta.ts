@@ -1,4 +1,4 @@
-/** /about プロフィール右カラム用（文言はここで調整） */
+/** 第1章 About 右カラム用（profile/content/ — 文言はここで調整） */
 
 export const PROFILE_META = {
   hobbies: ['食事', '音楽'] as [string, string],

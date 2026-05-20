@@ -1,3 +1,5 @@
+/** 第2章「経歴」内の資格（career/content/ — このファイルだけ編集） */
+
 export type Credential = {
   id: string;
   name: string;

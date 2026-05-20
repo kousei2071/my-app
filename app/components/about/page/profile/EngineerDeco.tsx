@@ -2,11 +2,11 @@
 
 import { useMemo, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
-import { getEngineerTenure } from './engineerTenure';
-import { PROFILE_META } from './profileMeta';
-import styles from './styles/AboutDetailView.module.css';
+import { getEngineerTenure } from './content/engineerTenure';
+import { PROFILE_META } from './content/profileMeta';
+import styles from './profile.module.css';
 
-export default function AboutPageEngineerDeco() {
+export default function EngineerDeco() {
   const reduceMotion = useReducedMotion();
   const [active, setActive] = useState(false);
   const tenure = useMemo(

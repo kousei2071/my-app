@@ -1,10 +1,10 @@
 'use client';
 
 import { motion, type Variants } from 'framer-motion';
-import AboutPageEngineerDeco from './AboutPageEngineerDeco';
+import EngineerDeco from './EngineerDeco';
+import { PROFILE_META } from './content/profileMeta';
 import { GitHubIcon, MessageIcon } from './icons';
-import { PROFILE_META } from './profileMeta';
-import styles from './styles/AboutDetailView.module.css';
+import styles from './profile.module.css';
 
 const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -34,13 +34,13 @@ const asideItem: Variants = {
   },
 };
 
-type AboutPageAsideProps = {
+type AsideProps = {
   active: boolean;
   githubHref: string;
   contactHref: string;
 };
 
-export default function AboutPageAside({ active, githubHref, contactHref }: AboutPageAsideProps) {
+export default function Aside({ active, githubHref, contactHref }: AsideProps) {
   const [hobbyA, hobbyB] = PROFILE_META.hobbies;
   const item = active ? asideItem : asideItemIdle;
 
@@ -94,7 +94,7 @@ export default function AboutPageAside({ active, githubHref, contactHref }: Abou
       </motion.div>
 
       <motion.div variants={item}>
-        <AboutPageEngineerDeco />
+        <EngineerDeco />
       </motion.div>
     </motion.aside>
   );

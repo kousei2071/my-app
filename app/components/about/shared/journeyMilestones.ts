@@ -1,8 +1,8 @@
 /**
- * トップページ「これまでの道」用（/about の経歴は page/careerMilestones.ts を編集）
+ * トップページ「これまでの道」用（/about の経歴は page/career/content/careerMilestones.ts を編集）
  */
 
-import { careerMilestones, type CareerMilestone } from '../page/careerMilestones';
+import { careerMilestones, type CareerMilestone } from '../page/career/content/careerMilestones';
 
 export type Milestone = Pick<CareerMilestone, 'id' | 'period' | 'title' | 'description'>;
 

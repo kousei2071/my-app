@@ -1,9 +1,9 @@
-import AboutPageCareerValues from './AboutPageCareerValues';
-import { careerMilestones } from './careerMilestones';
-import styles from './styles/AboutPageJourney.module.css';
+import { careerMilestones } from './content/careerMilestones';
+import CareerValues from './CareerValues';
+import styles from './career.module.css';
 
 /** 第2章 — 経歴（タイムライン + 理念・資格セット） */
-export default function AboutPageJourney() {
+export default function CareerSection() {
   return (
     <section
       id="career"
@@ -45,7 +45,7 @@ export default function AboutPageJourney() {
             </div>
           </div>
 
-          <AboutPageCareerValues />
+          <CareerValues />
         </div>
       </div>
     </section>

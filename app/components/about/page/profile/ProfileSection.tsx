@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { animate, motion, useMotionValue, useReducedMotion, type Variants } from 'framer-motion';
-import AboutPageAside from './AboutPageAside';
-import styles from './styles/AboutDetailView.module.css';
+import Aside from './Aside';
+import styles from './profile.module.css';
 
 const PROFILE = {
   nameJa: '富田 幸聖',
@@ -69,7 +69,7 @@ const staticShow: Variants = {
   show: { opacity: 1, x: 0, filter: 'none' },
 };
 
-export default function AboutPageProfile() {
+export default function ProfileSection() {
   const reduceMotion = useReducedMotion();
   const [phase, setPhase] = useState<'intro' | 'split'>('intro');
   const columnX = useMotionValue(0);
@@ -149,7 +149,7 @@ export default function AboutPageProfile() {
         </motion.div>
 
         <div className={!isSplit ? styles.asideInert : undefined} aria-hidden={!isSplit}>
-          <AboutPageAside
+          <Aside
             active={isSplit}
             githubHref={LINKS.github}
             contactHref={LINKS.contact}

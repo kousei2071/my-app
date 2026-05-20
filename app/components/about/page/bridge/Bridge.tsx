@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import styles from './styles/AboutPageBridge.module.css';
+import styles from './bridge.module.css';
 
 const INTENT_TOTAL = 40;
 const ACCUM_RESET_MS = 280;
@@ -28,7 +28,7 @@ function getElementDocCenter(el: HTMLElement): number {
 /**
  * プロフィール ↔ 経歴の橋渡しゾーン（案A・双方向）。
  */
-export default function AboutPageBridge() {
+export default function Bridge() {
   const bridgeRef = useRef<HTMLDivElement>(null);
   const bridgeArmedRef = useRef(false);
   const upZoneRef = useRef(false);
