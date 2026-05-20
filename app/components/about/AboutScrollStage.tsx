@@ -10,11 +10,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import {
-  ABOUT_STAGE_MIN_HEIGHT_VH,
-  computeAboutScrollMotion,
-  type AboutScrollMotion,
-} from './scrollModel';
+import { computeAboutScrollMotion, type AboutScrollMotion } from './scrollModel';
 import styles from './styles/AboutScrollStage.module.css';
 
 export type AboutScrollValue = {
@@ -45,11 +41,19 @@ type AboutScrollStageProps = {
   children: ReactNode;
 };
 
+/** reveal アニメーションの長さ（ms）。prefers-reduced-motion では使わない */
+const REVEAL_DURATION_MS = 720;
+
+function easeOutCubic(t: number): number {
+  return 1 - (1 - t) ** 3;
+}
+
 export default function AboutScrollStage({ children }: AboutScrollStageProps) {
-  const stageRef = useRef<HTMLDivElement>(null);
+  const hitRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [preferReducedMotion, setPreferReducedMotion] = useState(false);
-  const rafRef = useRef(0);
+  const revealedRef = useRef(false);
+  const animFrameRef = useRef(0);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -59,40 +63,57 @@ export default function AboutScrollStage({ children }: AboutScrollStageProps) {
     return () => mq.removeEventListener('change', sync);
   }, []);
 
-  const measure = useCallback(() => {
-    rafRef.current = 0;
-    const stage = stageRef.current;
-    if (!stage) return;
+  const startRevealAnimation = useCallback(() => {
+    if (revealedRef.current) return;
+    revealedRef.current = true;
 
-    const scrollable = stage.offsetHeight - window.innerHeight;
-    if (scrollable <= 0) {
-      setProgress(0);
-      return;
-    }
+    const start = performance.now();
 
-    const scrolled = -stage.getBoundingClientRect().top;
-    const next = Math.min(1, Math.max(0, scrolled / scrollable));
-    setProgress(next);
+    const tick = (now: number) => {
+      const raw = Math.min(1, (now - start) / REVEAL_DURATION_MS);
+      setProgress(easeOutCubic(raw));
+      if (raw < 1) {
+        animFrameRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    animFrameRef.current = requestAnimationFrame(tick);
   }, []);
-
-  const scheduleMeasure = useCallback(() => {
-    if (rafRef.current !== 0) return;
-    rafRef.current = window.requestAnimationFrame(measure);
-  }, [measure]);
 
   useEffect(() => {
     if (preferReducedMotion) return;
 
-    measure();
-    window.addEventListener('scroll', scheduleMeasure, { passive: true });
-    window.addEventListener('resize', scheduleMeasure);
+    const el = hitRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting || revealedRef.current) return;
+
+        // 「画面の半分くらい」About ブロックが見えてから: 可視高さが 50vh か、
+        // ブロックが低い場合は要素のほぼ全体が見えるまで待つ
+        const vh = window.innerHeight;
+        const targetH = entry.boundingClientRect.height;
+        const visibleH = entry.intersectionRect.height;
+        const needVisible = Math.min(vh * 0.5, targetH * 0.98);
+        if (visibleH < needVisible) return;
+
+        startRevealAnimation();
+      },
+      {
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+        rootMargin: '0px',
+      },
+    );
+
+    observer.observe(el);
 
     return () => {
-      window.removeEventListener('scroll', scheduleMeasure);
-      window.removeEventListener('resize', scheduleMeasure);
-      cancelAnimationFrame(rafRef.current);
+      observer.disconnect();
+      cancelAnimationFrame(animFrameRef.current);
     };
-  }, [preferReducedMotion, measure, scheduleMeasure]);
+  }, [preferReducedMotion, startRevealAnimation]);
 
   const scrollValue = useMemo(
     () => ({
@@ -103,17 +124,19 @@ export default function AboutScrollStage({ children }: AboutScrollStageProps) {
   );
 
   if (preferReducedMotion) {
-    return <>{children}</>;
+    return (
+      <div className={styles.stage}>
+        <div id="about-scroll-hit" className={styles.hit}>
+          {children}
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div
-      ref={stageRef}
-      className={styles.stage}
-      style={{ ['--about-stage-min-height' as string]: `${ABOUT_STAGE_MIN_HEIGHT_VH}vh` }}
-    >
+    <div className={styles.stage}>
       <AboutScrollProvider value={scrollValue}>
-        <div id="about-scroll-hit" className={styles.sticky}>
+        <div id="about-scroll-hit" ref={hitRef} className={styles.hit}>
           {children}
         </div>
       </AboutScrollProvider>

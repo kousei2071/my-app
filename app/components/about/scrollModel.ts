@@ -11,9 +11,6 @@
 /** 2 カラム＋スクロール演出のブレークポイント */
 export const ABOUT_TWO_COL_MIN_WIDTH_PX = 900;
 
-/** ステージの縦長（vh） */
-export const ABOUT_STAGE_MIN_HEIGHT_VH = 155;
-
 /** グリッドが広がり切る progress */
 export const LAYOUT_END = 0.38;
 export const WIDE_COL_FR = 2.5;

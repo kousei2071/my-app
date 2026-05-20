@@ -1,19 +1,11 @@
 .stage {
   position: relative;
-  min-height: var(--about-stage-min-height, 155vh);
   width: 100%;
   background-color: #ffffff;
+  /* Hero 直後が短く感じられないよう、About 手前に余白（ホームのみ AboutScrollStage を使う想定） */
+  padding-top: clamp(5.5rem, 22vh, 14rem);
 }
 
-.sticky {
-  position: sticky;
-  top: 0;
-  z-index: 1;
+.hit {
   width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-sizing: border-box;
-  background-color: #ffffff;
 }
