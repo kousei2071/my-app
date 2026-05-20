@@ -2,6 +2,7 @@
 
 .page {
   min-height: 100vh;
+  padding-top: clamp(2.5rem, 6vh, 4.5rem);
   background-color: #ffffff;
 }
 
@@ -13,10 +14,10 @@
   position: relative;
   z-index: 0;
   isolation: isolate;
-  overflow-x: clip;
-  overflow-y: visible;
+  overflow: visible;
   min-height: clamp(42rem, 88vh, 54rem);
-  padding: clamp(7rem, 18vw, 10rem) clamp(1.25rem, 5vw, 5rem) clamp(4rem, 10vw, 6rem);
+  padding: clamp(9.5rem, 22vw, 12.5rem) clamp(1.25rem, 5vw, 5rem)
+    clamp(10rem, 20vw, 14rem);
   background-color: #ffffff;
   scroll-margin-top: 5rem;
 }
@@ -24,13 +25,10 @@
 /* セクション高さが伸びても背景文字は動かさない（Works と同じ bottom/top、固定高さレイヤー内） */
 .bgLayer {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: clamp(36rem, 74vh, 48rem);
+  inset: 0;
   z-index: 0;
   pointer-events: none;
-  overflow: hidden;
+  overflow: visible;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -66,12 +64,14 @@
   left: clamp(0.25rem, 1vw, 0.9rem);
   bottom: clamp(-0.5rem, -0.5vw, 0rem);
   transform: rotate(180deg);
+  transform-origin: center center;
 }
 
 .bgTitleRight {
   position: absolute;
   top: clamp(-0.5rem, -0.5vw, 0rem);
   right: clamp(0.25rem, 1vw, 0.9rem);
+  margin: 0;
 }
 
 /* 右カラム下部 — ターミナル風ギミック（ホバーでエンジニア歴） */
@@ -197,6 +197,8 @@
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .profileContainerSplit {
