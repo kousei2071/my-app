@@ -1,4 +1,4 @@
-/* 詳細 About ページ - ホームと同じスタイルを継承 */
+/* 詳細 About — Works と同様の背景縦文字、プロフィールは右寄せ、縦線なし */
 
 .page {
   min-height: 100vh;
@@ -6,27 +6,60 @@
 }
 
 /* ========================================
-   プロフィール - AboutSection スタイル継承
+   プロフィール（背景 ABOUT + 本文は右側）
    ======================================== */
 
 .profileSection {
-  padding: clamp(7rem, 18vw, 10rem) clamp(1.5rem, 5vw, 3rem) clamp(4rem, 10vw, 6rem);
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(7rem, 18vw, 10rem) clamp(1.25rem, 5vw, 5rem) clamp(4rem, 10vw, 6rem);
   background-color: #ffffff;
   scroll-margin-top: 5rem;
 }
 
+.bgTitleLeft,
+.bgTitleRight {
+  position: absolute;
+  margin: 0;
+  font-size: clamp(7rem, 15vw, 13.5rem);
+  font-weight: 900;
+  line-height: 0.7;
+  letter-spacing: -0.1em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  user-select: none;
+  color: rgb(10 10 10 / 6%);
+  z-index: 0;
+}
+
+.bgTitleLeft {
+  left: clamp(0.25rem, 1vw, 0.9rem);
+  bottom: clamp(-0.5rem, -0.5vw, 0rem);
+  transform: rotate(180deg);
+}
+
+.bgTitleRight {
+  top: clamp(-0.5rem, -0.5vw, 0rem);
+  right: clamp(0.25rem, 1vw, 0.9rem);
+}
+
 .profileContainer {
-  max-width: 52rem;
+  position: relative;
+  z-index: 1;
+  max-width: 72rem;
   margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .profileMessage {
+  width: 100%;
   max-width: 42rem;
   min-width: 0;
   text-align: left;
   overflow-x: clip;
-  padding-left: clamp(1rem, 3vw, 1.5rem);
-  border-left: 10px solid #0a0a0a;
 }
 
 .heading {
@@ -127,10 +160,14 @@
 }
 
 /* ========================================
-   経歴 - LifeJourneySection スタイル継承
+   経歴（縦軸なし・カードのみ）
    ======================================== */
 
 .journeySection {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
   padding: 0;
   margin: 0;
   background-color: #0a0a0a;
@@ -139,16 +176,24 @@
 }
 
 .journeyInner {
-  max-width: 52rem;
+  position: relative;
+  z-index: 1;
+  max-width: 72rem;
   margin: 0 auto;
   padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .journeyHeading {
+  width: 100%;
+  max-width: 42rem;
   margin: 0 0 clamp(2rem, 5vw, 3rem);
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  text-align: left;
 }
 
 .journeyEyebrow {
@@ -167,72 +212,22 @@
   color: #fafafa;
 }
 
-/* タイムライン */
 .timeline {
-  position: relative;
+  width: 100%;
+  max-width: 42rem;
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: calc(2.75rem / 2 - 2px);
-  top: 0.35rem;
-  bottom: 0.35rem;
-  width: 4px;
-  background-color: #fafafa;
-  border-radius: 2px;
-  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 1.75rem);
 }
 
 .event {
-  position: relative;
-  z-index: 0;
-  display: grid;
-  grid-template-columns: 2.75rem minmax(0, 1fr);
-  column-gap: clamp(0.75rem, 2vw, 1.25rem);
-  align-items: stretch;
-  padding-bottom: clamp(1.75rem, 4vw, 2.75rem);
-}
-
-.event:last-child {
-  padding-bottom: 0;
-}
-
-.spine {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0;
-  min-height: 3.25rem;
-}
-
-.dot {
-  position: relative;
-  z-index: 1;
-  flex: 0 0 auto;
-  width: 0.85rem;
-  height: 0.85rem;
-  margin-left: calc(2.75rem / 2 - 0.425rem);
-  border-radius: 50%;
-  background-color: #0a0a0a;
-  border: 3px solid #fafafa;
-  box-shadow: 0 0 0 3px #0a0a0a;
-}
-
-.branch {
-  flex: 1 1 auto;
-  height: 3px;
   margin: 0;
-  min-width: 0.5rem;
-  margin-top: 0.05rem;
-  border-radius: 1px;
-  background-color: #fafafa;
+  padding: 0;
 }
 
-/* カード */
 .card {
   position: relative;
   scroll-margin-top: clamp(5rem, 12vw, 7rem);
@@ -240,8 +235,8 @@
   padding: clamp(1rem, 2.5vw, 1.35rem) clamp(1rem, 2.5vw, 1.5rem);
   padding-top: clamp(1.25rem, 3vw, 1.75rem);
   border-radius: 0;
-  border: none;
-  border-left: 5px solid #fafafa;
+  border: 1px solid rgb(250 250 250 / 10%);
+  border-left: none;
   background-color: #171717;
   box-shadow: none;
   overflow: hidden;
@@ -332,12 +327,15 @@
 }
 
 @media (min-width: 640px) {
-  .spine {
-    min-height: 3.5rem;
-  }
-
   .card {
     padding: clamp(1.15rem, 2.8vw, 1.5rem) clamp(1.15rem, 3vw, 1.65rem);
     padding-top: clamp(1.35rem, 3.2vw, 1.85rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .bgTitleLeft,
+  .bgTitleRight {
+    font-size: clamp(5rem, 26vw, 8.5rem);
   }
 }

@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { journeyMilestones } from './journeyMilestones';
 import styles from './styles/AboutDetailView.module.css';
@@ -22,6 +20,12 @@ export default function AboutDetailView() {
     <div className={styles.page}>
       {/* プロフィールセクション - ホームの AboutSection スタイル */}
       <section id="profile" className={styles.profileSection} aria-labelledby="detail-about-title">
+        <p className={styles.bgTitleLeft} aria-hidden="true">
+          ABOUT
+        </p>
+        <p className={styles.bgTitleRight} aria-hidden="true">
+          ABOUT
+        </p>
         <div className={styles.profileContainer}>
           <div className={styles.profileMessage}>
             <h1 id="detail-about-title" className={styles.heading}>
@@ -64,10 +68,6 @@ export default function AboutDetailView() {
           <ol className={styles.timeline}>
             {journeyMilestones.map((m, i) => (
               <li key={m.id} className={styles.event}>
-                <div className={styles.spine} aria-hidden="true">
-                  <span className={styles.dot} />
-                  <span className={styles.branch} />
-                </div>
                 <article id={`journey-${m.id}`} className={styles.card}>
                   <span className={styles.index} aria-hidden="true">
                     {String(i + 1).padStart(2, '0')}
