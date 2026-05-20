@@ -13,7 +13,8 @@
   position: relative;
   z-index: 0;
   isolation: isolate;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   padding: clamp(7rem, 18vw, 10rem) clamp(1.25rem, 5vw, 5rem) clamp(4rem, 10vw, 6rem);
   background-color: #ffffff;
   scroll-margin-top: 5rem;
@@ -52,6 +53,27 @@
   margin: 0 auto;
   display: flex;
   justify-content: flex-end;
+  width: 100%;
+}
+
+.profileContainerSplit {
+  display: grid;
+  grid-template-columns: minmax(0, 46%) minmax(0, 1fr);
+  align-items: center;
+  justify-content: stretch;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.profileColumn {
+  width: 100%;
+  max-width: 42rem;
+  min-width: 0;
+  overflow: visible;
+}
+
+.profileContainerSplit .profileColumn {
+  max-width: 100%;
+  justify-self: start;
 }
 
 .profileMessage {
@@ -59,20 +81,90 @@
   max-width: 42rem;
   min-width: 0;
   text-align: left;
-  overflow: hidden;
+  overflow: visible;
+}
+
+.profileContainerSplit .profileMessage {
+  max-width: 100%;
+}
+
+.actionsColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(1rem, 2.5vw, 1.35rem);
+  min-width: 0;
+  padding-right: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-width: clamp(10rem, 28vw, 14rem);
+  padding: 0.9rem 1.75rem;
+  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #0a0a0a;
+  border: 2px solid #0a0a0a;
+  background-color: transparent;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: #0a0a0a;
+  color: #fafafa;
+}
+
+.actionIcon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .profileContainerSplit {
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 8vw, 3.5rem);
+  }
+
+  .actionsColumn {
+    align-items: stretch;
+    padding-right: 0;
+  }
+
+  .actionButton {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 .heading {
   margin: 0 0 clamp(0.75rem, 2vw, 1.25rem);
   color: #111827;
-  line-height: 0.9;
+  line-height: 1;
+  overflow: visible;
+}
+
+.titleWrap {
+  display: block;
+  overflow: visible;
+  padding: 0.06em 0.12em 0.08em 0;
 }
 
 .title {
   display: block;
   font-size: clamp(4rem, 18vw, 11.5rem);
   font-weight: 800;
-  letter-spacing: -0.04em;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   color: #0a0a0a;
 }

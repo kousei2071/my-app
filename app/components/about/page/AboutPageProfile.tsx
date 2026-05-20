@@ -1,6 +1,8 @@
 'use client';
 
-import { motion, useReducedMotion, type Variants } from 'framer-motion';
+import { useCallback, useEffect, useState } from 'react';
+import { animate, motion, useMotionValue, useReducedMotion, type Variants } from 'framer-motion';
+import { GitHubIcon, MessageIcon } from './icons';
 import styles from './styles/AboutDetailView.module.css';
 
 const PROFILE = {
@@ -11,7 +13,14 @@ const PROFILE = {
     '開発において、単に機能を実装するだけでなく、なぜその技術スタックを選んだのかという「選定理由」を大切にしています。また、ユーザーの利便性を考えて、UI/UXを最適化しています。',
 };
 
+const LINKS = {
+  github: 'https://github.com/kousei2071',
+  contact: 'mailto:contact@example.com',
+};
+
 const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const LAYOUT_TRANSITION = { duration: 0.9, ease: EASE_OUT };
 
 const slideFromRight: Variants = {
   hidden: {
@@ -71,12 +80,53 @@ const staticShow: Variants = {
   show: { opacity: 1, x: 0, filter: 'none' },
 };
 
+const actionItem: Variants = {
+  hidden: { opacity: 0, x: 56, filter: 'blur(8px)' },
+  show: {
+    opacity: 1,
+    x: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.75, ease: EASE_OUT },
+  },
+};
+
+const actionStagger: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.14, delayChildren: 0.2 },
+  },
+};
+
 export default function AboutPageProfile() {
   const reduceMotion = useReducedMotion();
+  const [phase, setPhase] = useState<'intro' | 'split'>('intro');
+  const columnX = useMotionValue(0);
+
+  useEffect(() => {
+    if (reduceMotion) setPhase('split');
+  }, [reduceMotion]);
+
+  useEffect(() => {
+    if (phase !== 'split' || reduceMotion) return;
+    columnX.set(120);
+    void animate(columnX, 0, { duration: 0.92, ease: EASE_OUT });
+  }, [phase, reduceMotion, columnX]);
+
   const item = reduceMotion ? staticShow : slideFromRight;
   const title = reduceMotion ? staticShow : titleVariant;
   const stagger = reduceMotion ? staticShow : profileStagger;
   const bg = reduceMotion ? staticShow : bgTitleVariant;
+
+  const handleIntroComplete = useCallback(
+    (definition: string) => {
+      if (definition === 'show' && !reduceMotion) {
+        setPhase('split');
+      }
+    },
+    [reduceMotion],
+  );
+
+  const isSplit = phase === 'split';
 
   return (
     <section id="profile" className={styles.profileSection} aria-labelledby="detail-about-title">
@@ -101,32 +151,74 @@ export default function AboutPageProfile() {
         ABOUT
       </motion.p>
 
-      <div className={styles.profileContainer}>
+      <motion.div
+        layout
+        className={`${styles.profileContainer} ${isSplit ? styles.profileContainerSplit : ''}`}
+        transition={{ layout: LAYOUT_TRANSITION }}
+      >
         <motion.div
-          className={styles.profileMessage}
-          variants={stagger}
-          initial="hidden"
-          animate="show"
+          layout
+          className={styles.profileColumn}
+          style={{ x: columnX }}
+          transition={{ layout: LAYOUT_TRANSITION }}
         >
-          <motion.h1 id="detail-about-title" className={styles.heading} variants={title}>
-            <span className={styles.title} lang="en">
-              ABOUT
-            </span>
-          </motion.h1>
-          <motion.p className={styles.nameJa} lang="ja" variants={item}>
-            {PROFILE.nameJa}
-          </motion.p>
-          <motion.p className={styles.nameEn} lang="en" variants={item}>
-            {PROFILE.nameEn}
-          </motion.p>
-          <motion.p className={styles.lead} variants={item}>
-            {PROFILE.lead}
-          </motion.p>
-          <motion.p className={styles.body} variants={item}>
-            {PROFILE.body}
-          </motion.p>
+          <motion.div
+            className={styles.profileMessage}
+            variants={stagger}
+            initial="hidden"
+            animate="show"
+          >
+            <motion.h1 id="detail-about-title" className={styles.heading} variants={title}>
+              <span className={styles.titleWrap}>
+                <span className={styles.title} lang="en">
+                  ABOUT
+                </span>
+              </span>
+            </motion.h1>
+            <motion.p className={styles.nameJa} lang="ja" variants={item}>
+              {PROFILE.nameJa}
+            </motion.p>
+            <motion.p className={styles.nameEn} lang="en" variants={item}>
+              {PROFILE.nameEn}
+            </motion.p>
+            <motion.p className={styles.lead} variants={item}>
+              {PROFILE.lead}
+            </motion.p>
+            <motion.p
+              className={styles.body}
+              variants={item}
+              onAnimationComplete={handleIntroComplete}
+            >
+              {PROFILE.body}
+            </motion.p>
+          </motion.div>
         </motion.div>
-      </div>
+
+        {isSplit && (
+          <motion.nav
+            className={styles.actionsColumn}
+            aria-label="リンク"
+            variants={actionStagger}
+            initial="hidden"
+            animate="show"
+          >
+            <motion.a
+              className={styles.actionButton}
+              href={LINKS.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              variants={actionItem}
+            >
+              <GitHubIcon className={styles.actionIcon} />
+              <span>GitHub</span>
+            </motion.a>
+            <motion.a className={styles.actionButton} href={LINKS.contact} variants={actionItem}>
+              <MessageIcon className={styles.actionIcon} />
+              <span>Contact</span>
+            </motion.a>
+          </motion.nav>
+        )}
+      </motion.div>
     </section>
   );
 }
