@@ -20,8 +20,6 @@ const LINKS = {
 
 const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const LAYOUT_TRANSITION = { duration: 0.9, ease: EASE_OUT };
-
 const slideFromRight: Variants = {
   hidden: {
     opacity: 0,
@@ -111,15 +109,12 @@ export default function AboutPageProfile() {
       </div>
 
       <motion.div
-        layout
-        className={`${styles.profileContainer} ${isSplit ? styles.profileContainerSplit : ''}`}
-        transition={{ layout: LAYOUT_TRANSITION }}
+        className={`${styles.profileContainer} ${styles.profileContainerSplit} ${!isSplit ? styles.profileContainerIntro : ''}`}
       >
         <motion.div
-          layout
           className={styles.profileColumn}
           style={{ x: columnX }}
-          transition={{ layout: LAYOUT_TRANSITION }}
+          transition={{ duration: 0.92, ease: EASE_OUT }}
         >
           <motion.div
             className={styles.profileMessage}
@@ -153,21 +148,13 @@ export default function AboutPageProfile() {
           </motion.div>
         </motion.div>
 
-        {isSplit ? (
+        <div className={!isSplit ? styles.asideInert : undefined} aria-hidden={!isSplit}>
           <AboutPageAside
-            active
+            active={isSplit}
             githubHref={LINKS.github}
             contactHref={LINKS.contact}
           />
-        ) : (
-          <div className={styles.asideReserve} aria-hidden>
-            <AboutPageAside
-              active={false}
-              githubHref={LINKS.github}
-              contactHref={LINKS.contact}
-            />
-          </div>
-        )}
+        </div>
       </motion.div>
     </section>
   );

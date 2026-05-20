@@ -2,7 +2,7 @@
 
 .page {
   min-height: 100vh;
-  padding-top: clamp(2.5rem, 6vh, 4.5rem);
+  padding-top: clamp(3rem, 7vh, 5rem);
   background-color: #ffffff;
 }
 
@@ -10,22 +10,28 @@
    プロフィール（背景 ABOUT + 本文は右側）
    ======================================== */
 
+/* 第1章 — About（プロフィール） */
 .profileSection {
   position: relative;
   z-index: 0;
   isolation: isolate;
   overflow: visible;
-  min-height: clamp(42rem, 88vh, 54rem);
-  padding: clamp(9.5rem, 22vw, 12.5rem) clamp(1.25rem, 5vw, 5rem)
+  min-height: 100dvh;
+  box-sizing: border-box;
+  /* 固定ヘッダーと ABOUT 見出しが重ならないよう（経歴章と同系） */
+  padding: clamp(11rem, 22vh, 15rem) clamp(1.25rem, 5vw, 5rem)
     clamp(10rem, 20vw, 14rem);
   background-color: #ffffff;
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 6rem;
 }
 
-/* セクション高さが伸びても背景文字は動かさない（Works と同じ bottom/top、固定高さレイヤー内） */
+/* セクション高さが伸びても背景文字は動かさない（min-height 相当の固定枠・Works と同じ top/bottom 基準） */
 .bgLayer {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(42rem, 88vh, 54rem);
   z-index: 0;
   pointer-events: none;
   overflow: visible;
@@ -62,7 +68,7 @@
 .bgTitleLeftWrap {
   position: absolute;
   left: clamp(0.25rem, 1vw, 0.9rem);
-  bottom: clamp(-0.5rem, -0.5vw, 0rem);
+  bottom:  -100px;
   transform: rotate(180deg);
   transform-origin: center center;
 }
@@ -212,12 +218,21 @@
   width: 100%;
 }
 
-/* intro 中: 右カラム分の高さだけ確保（レイアウトは flex のまま） */
-.asideReserve {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: min(54%, 22rem);
+/* intro: 右カラムに本文＋非表示 aside を縦積み（split 後と同じセクション高さ） */
+.profileContainerIntro {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 46%);
+}
+
+.profileContainerIntro .profileColumn {
+  grid-column: 2;
+}
+
+.profileContainerIntro .asideInert {
+  grid-column: 2;
+}
+
+/* intro 中: grid 内に置き高さを split 後と揃える（absolute だとセクション高さが後から伸びる） */
+.asideInert {
   visibility: hidden;
   pointer-events: none;
 }
