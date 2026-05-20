@@ -2,7 +2,8 @@
  * About まわりのエントリ
  *
  * - hero/ … トップのヒーロー（About とは別）
- * - home/ … トップページの About + 経歴（スクロール演出）
+ * - home/ … トップの About + これまでの道（pathMilestones.ts）
+ * - page/career/ … /about の経歴（careerMilestones.ts）
  * - page/ … /about 詳細ページ
  * - shared/ … データ・スクロール数式（Header も利用）
  */

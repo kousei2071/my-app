@@ -1,4 +1,4 @@
-import { journeyMilestones } from '../shared/journeyMilestones';
+import { pathMilestones } from './content/pathMilestones';
 import styles from './styles/LifeJourneySection.module.css';
 
 type LifeJourneySectionProps = {
@@ -22,7 +22,7 @@ export default function LifeJourneySection({ pairLayout = false }: LifeJourneySe
         </h2>
 
         <ol className={styles.timeline}>
-          {journeyMilestones.map((m, i) => (
+          {pathMilestones.map((m, i) => (
             <li key={m.id} className={styles.event}>
               <div className={styles.spine} aria-hidden="true">
                 <span className={styles.dot} />
