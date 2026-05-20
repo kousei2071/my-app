@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { BURST_S, EASE } from './skillsConfig';
 import type { Particle } from './skillsParticles';
 import styles from './SkillsSection.module.css';
@@ -12,9 +12,9 @@ type Props = {
 
 export function ParticleBurst({ items, onDone }: Props) {
   return (
-    <motion.div className={styles.particleLayer} aria-hidden="true">
+    <m.div className={styles.particleLayer} aria-hidden="true">
       {items.map((p) => (
-        <motion.span
+        <m.span
           key={p.id}
           className={styles.particle}
           style={{ left: p.x, top: p.y, width: p.size, height: p.size }}
@@ -24,6 +24,6 @@ export function ParticleBurst({ items, onDone }: Props) {
           onAnimationComplete={() => onDone(p.id)}
         />
       ))}
-    </motion.div>
+    </m.div>
   );
 }

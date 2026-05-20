@@ -1,7 +1,8 @@
 export type View = 'stack' | 'skills';
 export type Phase = 'idle' | 'burst' | 'reveal';
 
-export const N_PARTICLES = 200;
+/** 見た目を保ちつつ DOM / アニメ負荷を抑える */
+export const N_PARTICLES = 48;
 export const BURST_S = 1;
 export const REVEAL_S = 0.42;
 /** Stack → Skills のときだけ視点を少し下へ（px） */

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { skillGroups, type SkillItem } from './skillsData';
 import { siteStack, type View } from './skillsConfig';
 import styles from './SkillsSection.module.css';
@@ -21,7 +21,7 @@ function Meter({ skill, animate }: { skill: SkillItem; animate?: boolean }) {
         </span>
         <span className={styles.skillLevel}>{lv}%</span>
       </div>
-      <motion.div
+      <m.div
         className={styles.skillTrack}
         role="progressbar"
         aria-valuenow={lv}
@@ -29,13 +29,13 @@ function Meter({ skill, animate }: { skill: SkillItem; animate?: boolean }) {
         aria-valuemax={100}
         aria-label={`${skill.name} ${lv}%`}
       >
-        <motion.span
+        <m.span
           className={styles.skillFill}
           initial={animate && !reduce ? { width: 0 } : false}
           animate={{ width: `${lv}%` }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.08 }}
         />
-      </motion.div>
+      </m.div>
     </div>
   );
 }
