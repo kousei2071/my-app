@@ -1,0 +1,7 @@
+/* 詳細 About — Works と同様の背景縦文字、プロフィールは右寄せ、縦線なし */
+
+.page {
+  min-height: 100vh;
+  padding-top: clamp(3rem, 7vh, 5rem);
+  background-color: #ffffff;
+}
