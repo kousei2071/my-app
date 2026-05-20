@@ -1,23 +1,20 @@
 /**
- * About ブロックの公開 API
+ * About まわりのエントリ
  *
- * - scrollModel … 定数・数式・ヘッダー色用（純 TS）
- * - styles/ … CSS Modules（コンポーネントごと）
- * - AboutScrollStage … Intersection で About を一度だけ reveal + Context
- * - HeroSection / AboutJourneyRow / AboutSection … UI
+ * - hero/ … トップのヒーロー（About とは別）
+ * - home/ … トップページの About + 経歴（スクロール演出）
+ * - page/ … /about 詳細ページ
+ * - shared/ … データ・スクロール数式（Header も利用）
  */
 
+export { HeroSection } from '../hero';
+export { AboutScrollStage, AboutJourneyRow, useAboutScroll } from './home';
+export type { AboutScrollValue } from './home';
+export { AboutDetailView } from './page';
 export {
   ABOUT_TWO_COL_MIN_WIDTH_PX,
   computeAboutScrollMotion,
   computeHeaderNavTint,
   mixNavRgb,
-} from './scrollModel';
-export type { AboutScrollMotion } from './scrollModel';
-
-export { default as AboutScrollStage, useAboutScroll } from './AboutScrollStage';
-export type { AboutScrollValue } from './AboutScrollStage';
-
-export { default as HeroSection } from './HeroSection';
-export { default as AboutJourneyRow } from './AboutJourneyRow';
-export { default as AboutSection } from './AboutSection';
+} from './shared/scrollModel';
+export type { AboutScrollMotion } from './shared/scrollModel';

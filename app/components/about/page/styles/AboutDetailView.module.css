@@ -1,0 +1,604 @@
+/* 詳細 About — Works と同様の背景縦文字、プロフィールは右寄せ、縦線なし */
+
+.page {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* ========================================
+   プロフィール（背景 ABOUT + 本文は右側）
+   ======================================== */
+
+.profileSection {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow-x: clip;
+  overflow-y: visible;
+  padding: clamp(7rem, 18vw, 10rem) clamp(1.25rem, 5vw, 5rem) clamp(4rem, 10vw, 6rem);
+  background-color: #ffffff;
+  scroll-margin-top: 5rem;
+}
+
+.bgTitleLeft,
+.bgTitleRight {
+  position: absolute;
+  margin: 0;
+  font-size: clamp(7rem, 15vw, 13.5rem);
+  font-weight: 900;
+  line-height: 0.7;
+  letter-spacing: -0.1em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  user-select: none;
+  color: rgb(10 10 10 / 6%);
+  z-index: 0;
+}
+
+.bgTitleLeft {
+  left: clamp(0.25rem, 1vw, 0.9rem);
+  bottom: clamp(-0.5rem, -0.5vw, 0rem);
+  transform: rotate(180deg);
+}
+
+.bgTitleRight {
+  top: clamp(-0.5rem, -0.5vw, 0rem);
+  right: clamp(0.25rem, 1vw, 0.9rem);
+}
+
+/* 右カラム下部 — ターミナル風ギミック（ホバーでエンジニア歴） */
+.engineerDeco {
+  width: 100%;
+  margin-top: 0.25rem;
+  text-align: right;
+}
+
+.engineerPanel {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: clamp(0.65rem, 1.6vw, 0.85rem) clamp(0.85rem, 2vw, 1.1rem);
+  min-width: 0;
+  border: 1px solid rgb(10 10 10 / 22%);
+  background-color: rgb(10 10 10 / 4%);
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+  font-size: clamp(0.6875rem, 1.35vw, 0.8125rem);
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  text-align: left;
+  color: #171717;
+  cursor: default;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.engineerPanel:hover,
+.engineerPanel:focus-visible {
+  outline: none;
+  border-color: #0a0a0a;
+  background-color: #0a0a0a;
+  color: #fafafa;
+  box-shadow: 0 10px 28px rgb(10 10 10 / 12%);
+}
+
+.engineerPrompt,
+.engineerTenure {
+  display: block;
+  transition: opacity 0.22s ease;
+}
+
+.engineerPrefix {
+  color: #525252;
+  margin-right: 0.35rem;
+}
+
+.engineerPanel:hover .engineerPrefix,
+.engineerPanel:focus-visible .engineerPrefix {
+  color: #a3a3a3;
+}
+
+.engineerCursor {
+  display: inline-block;
+  margin-left: 0.15rem;
+  animation: engineerBlink 1.05s step-end infinite;
+}
+
+.engineerTenure {
+  position: absolute;
+  inset: clamp(0.65rem, 1.6vw, 0.85rem) clamp(0.85rem, 2vw, 1.1rem);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.engineerTenureVisible {
+  opacity: 1;
+}
+
+.engineerPrompt {
+  opacity: 1;
+}
+
+.engineerPanel:hover .engineerPrompt,
+.engineerPanel:focus-visible .engineerPrompt {
+  opacity: 0;
+}
+
+.engineerTenureMain {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.engineerTenureSub {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.92em;
+  color: #a3a3a3;
+  font-weight: 500;
+}
+
+.engineerPanelStatic .engineerPrompt {
+  display: none;
+}
+
+.engineerPanelStatic .engineerTenure {
+  position: static;
+  inset: auto;
+  opacity: 1;
+}
+
+.engineerPanelStatic .engineerCursor {
+  animation: none;
+}
+
+@keyframes engineerBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.profileContainer {
+  position: relative;
+  z-index: 1;
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.profileContainerSplit {
+  --about-title-size: clamp(4rem, 18vw, 11.5rem);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 46%) minmax(0, 1fr);
+  align-items: start;
+  justify-content: stretch;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+/* ABOUT 見出しのインク上端に Status 上端を合わせる（line-height / titleWrap 分） */
+.profileContainerSplit .asideColumn {
+  padding-top: calc(var(--about-title-size) * 0.1);
+}
+
+.profileColumn {
+  width: 100%;
+  max-width: 42rem;
+  min-width: 0;
+  overflow: visible;
+}
+
+.profileContainerSplit .profileColumn {
+  max-width: 100%;
+  justify-self: start;
+}
+
+.profileMessage {
+  width: 100%;
+  max-width: 42rem;
+  min-width: 0;
+  text-align: left;
+  overflow: visible;
+}
+
+.profileContainerSplit .profileMessage {
+  max-width: 100%;
+}
+
+.asideColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: clamp(1rem, 2.5vw, 1.35rem);
+  width: 100%;
+  max-width: 22rem;
+  min-width: 0;
+  margin-left: auto;
+  padding-right: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+/* Status — ボタンと同系の枠・サイズ、左だけ黒アクセント */
+.statusCard {
+  width: 100%;
+  padding: clamp(0.85rem, 2vw, 1rem) clamp(1rem, 2.5vw, 1.25rem);
+  padding-left: clamp(1rem, 2.5vw, 1.2rem);
+  border: 2px solid #0a0a0a;
+  border-left-width: 5px;
+  background-color: #0a0a0a;
+  color: #fafafa;
+}
+
+.statusLabel {
+  margin: 0 0 0.4rem;
+  font-size: clamp(0.5625rem, 1.2vw, 0.625rem);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #a3a3a3;
+}
+
+.statusSchool {
+  margin: 0 0 0.25rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.8125rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: #fafafa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusMajor {
+  margin: 0;
+  font-size: clamp(0.75rem, 1.5vw, 0.8125rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #d4d4d4;
+}
+
+.asideActions {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.85rem, 2vw, 1rem);
+  width: 100%;
+}
+
+.metaCompact {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0;
+  text-align: right;
+}
+
+.metaRow {
+  margin: 0;
+}
+
+.metaLabel {
+  margin: 0 0 0.15rem;
+  font-size: clamp(0.5625rem, 1.2vw, 0.625rem);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #a3a3a3;
+}
+
+.metaText {
+  margin: 0;
+  font-size: clamp(0.75rem, 1.5vw, 0.8125rem);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.03em;
+  color: #737373;
+}
+
+.metaSep {
+  color: #d4d4d4;
+  font-weight: 400;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-width: clamp(10rem, 28vw, 14rem);
+  padding: 0.9rem 1.75rem;
+  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #0a0a0a;
+  border: 2px solid #0a0a0a;
+  background-color: transparent;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: #0a0a0a;
+  color: #fafafa;
+}
+
+.actionIcon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .profileContainerSplit {
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 8vw, 3.5rem);
+  }
+
+  .asideColumn {
+    max-width: none;
+    margin-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+  }
+
+  .statusSchool {
+    white-space: normal;
+  }
+
+  .actionButton {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.heading {
+  margin: 0 0 clamp(0.75rem, 2vw, 1.25rem);
+  color: #111827;
+  line-height: 1;
+  overflow: visible;
+}
+
+.titleWrap {
+  display: block;
+  overflow: visible;
+  padding: 0.06em 0.12em 0.08em 0;
+}
+
+.title {
+  display: block;
+  font-size: clamp(4rem, 18vw, 11.5rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+}
+
+.nameBlock {
+  min-width: 0;
+}
+
+.nameJa {
+  margin: 0 0 0.2rem;
+  max-width: 100%;
+  font-size: clamp(2.25rem, 6.5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: #0a0a0a;
+}
+
+.nameEn {
+  margin: 0 0 clamp(1.25rem, 3.5vw, 2rem);
+  max-width: 42rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #525252;
+}
+
+.lead {
+  margin: 0 0 1.15rem;
+  max-width: 42rem;
+  color: #171717;
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.body {
+  margin: 0;
+  max-width: 42rem;
+  color: #404040;
+  font-size: clamp(1.0625rem, 2.2vw, 1.1875rem);
+  line-height: 1.72;
+}
+
+/* ========================================
+   経歴（縦軸なし・カードのみ）
+   ======================================== */
+
+.journeySection {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  background-color: #0a0a0a;
+  color: #fafafa;
+  scroll-margin-top: 5rem;
+}
+
+.journeyInner {
+  position: relative;
+  z-index: 1;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.journeyHeading {
+  width: 100%;
+  max-width: 42rem;
+  margin: 0 0 clamp(2rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
+}
+
+.journeyEyebrow {
+  font-size: clamp(0.6875rem, 1.2vw, 0.8125rem);
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #a3a3a3;
+}
+
+.journeyMain {
+  font-size: clamp(1.5rem, 4.2vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  color: #fafafa;
+}
+
+.timeline {
+  width: 100%;
+  max-width: 42rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.event {
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  position: relative;
+  scroll-margin-top: clamp(5rem, 12vw, 7rem);
+  margin: 0;
+  padding: clamp(1rem, 2.5vw, 1.35rem) clamp(1rem, 2.5vw, 1.5rem);
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
+  border-radius: 0;
+  border: 1px solid rgb(250 250 250 / 10%);
+  border-left: none;
+  background-color: #171717;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.index {
+  position: absolute;
+  top: 0.15rem;
+  right: 0.35rem;
+  font-size: clamp(3.25rem, 12vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgb(250 250 250 / 8%);
+  pointer-events: none;
+  user-select: none;
+}
+
+.period {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.5rem;
+  font-size: clamp(0.8125rem, 1.8vw, 0.9375rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  color: #a3a3a3;
+}
+
+.cardTitle {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.125rem, 2.8vw, 1.5rem);
+  font-weight: 800;
+  color: #fafafa;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.cardBody {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.75rem;
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
+  line-height: 1.65;
+  color: #d4d4d4;
+}
+
+.cardDetail {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(250, 250, 250, 0.12);
+  font-size: clamp(0.9375rem, 2vw, 1rem);
+  line-height: 1.7;
+  color: #a3a3a3;
+}
+
+/* ========================================
+   戻るリンク
+   ======================================== */
+
+.backSection {
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3rem);
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.backLink {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #0a0a0a;
+  text-decoration: none;
+  border: 2px solid #0a0a0a;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.backLink:hover {
+  background-color: #0a0a0a;
+  color: #fafafa;
+}
+
+@media (min-width: 640px) {
+  .card {
+    padding: clamp(1.15rem, 2.8vw, 1.5rem) clamp(1.15rem, 3vw, 1.65rem);
+    padding-top: clamp(1.35rem, 3.2vw, 1.85rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .bgTitleLeft,
+  .bgTitleRight {
+    font-size: clamp(5rem, 26vw, 8.5rem);
+  }
+}

@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import LifeJourneySection from '../LifeJourneySection';
+import LifeJourneySection from './LifeJourneySection';
 import AboutSection from './AboutSection';
 import { useAboutScroll } from './AboutScrollStage';
-import { ABOUT_TWO_COL_MIN_WIDTH_PX } from './scrollModel';
+import { ABOUT_TWO_COL_MIN_WIDTH_PX } from '../shared/scrollModel';
 import styles from './styles/AboutJourneyRow.module.css';
 
 type AboutJourneyRowProps = {
