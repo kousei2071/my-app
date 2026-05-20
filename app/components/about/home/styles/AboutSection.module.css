@@ -37,14 +37,9 @@
   color: #0a0a0a;
 }
 
-/* スクロール演出: opacity / transform は inline のみ */
-.titleScroll {
+.titleReveal {
   display: block;
-  will-change: transform, opacity;
-  transform-origin: calc(
-      -1 * clamp(1rem, 3vw, 1.5rem) - 5px + var(--about-title-origin-shift, 20px)
-    )
-    50%;
+  transform-origin: calc(-1 * clamp(1rem, 3vw, 1.5rem) - 5px + 20px) 50%;
 }
 
 .nameBlock {
@@ -124,12 +119,4 @@
 
 .moreRead:hover .moreReadArrow {
   transform: translateX(3px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .titleScroll {
-    opacity: 1 !important;
-    transform: none !important;
-    will-change: auto;
-  }
 }
