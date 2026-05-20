@@ -87,6 +87,45 @@
   line-height: 1.72;
 }
 
+.moreRead {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+  padding: 0;
+  border: none;
+  background: none;
+  color: #0a0a0a;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    color 160ms ease,
+    gap 160ms ease;
+}
+
+.moreRead:hover {
+  color: #525252;
+  gap: 0.65rem;
+}
+
+.moreRead:focus-visible {
+  outline: 2px solid #0a0a0a;
+  outline-offset: 4px;
+}
+
+.moreReadArrow {
+  font-size: 1.125rem;
+  line-height: 1;
+  transition: transform 160ms ease;
+}
+
+.moreRead:hover .moreReadArrow {
+  transform: translateX(3px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .titleScroll {
     opacity: 1 !important;

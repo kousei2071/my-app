@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { useAboutScroll } from './AboutScrollStage';
 import { TITLE_ORIGIN_SHIFT_PX, type AboutScrollMotion } from '../shared/scrollModel';
@@ -54,6 +55,12 @@ export default function AboutSection({ nameJa, nameEn, motion: motionProp }: Abo
             <p className={styles.body}>
               開発において、単に機能を実装するだけでなく、なぜその技術スタックを選んだのかという『選定理由』を大切にしています。また、ユーザーの利便性を考えて、UI/UXを最適化しています。
             </p>
+            <Link href="/about" className={styles.moreRead} aria-label="About 詳細ページへ">
+              More Read
+              <span className={styles.moreReadArrow} aria-hidden>
+                →
+              </span>
+            </Link>
           </div>
         </div>
       </div>
