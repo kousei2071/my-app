@@ -59,7 +59,7 @@
   max-width: 42rem;
   min-width: 0;
   text-align: left;
-  overflow-x: clip;
+  overflow: hidden;
 }
 
 .heading {
@@ -110,53 +110,11 @@
 }
 
 .body {
-  margin: 0 0 clamp(2rem, 5vw, 3rem);
+  margin: 0;
   max-width: 42rem;
   color: #404040;
   font-size: clamp(1.0625rem, 2.2vw, 1.1875rem);
   line-height: 1.72;
-}
-
-.focusBlock {
-  padding-top: clamp(1.5rem, 4vw, 2rem);
-  border-top: 1px solid #e5e7eb;
-}
-
-.focusHeading {
-  margin: 0 0 clamp(0.75rem, 2vw, 1rem);
-  font-size: clamp(0.6875rem, 1.2vw, 0.8125rem);
-  font-weight: 700;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: #525252;
-}
-
-.focusList {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem 1rem;
-}
-
-.focusList li {
-  position: relative;
-  padding-left: 1rem;
-  font-size: clamp(1rem, 2.2vw, 1.125rem);
-  line-height: 1.5;
-  color: #171717;
-}
-
-.focusList li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.55em;
-  width: 6px;
-  height: 6px;
-  background-color: #0a0a0a;
-  border-radius: 50%;
 }
 
 /* ========================================
