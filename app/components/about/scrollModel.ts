@@ -144,6 +144,7 @@ function overlapTint(headerEl: HTMLElement, target: Element): number {
 export function computeHeaderNavTint(headerEl: HTMLElement): number {
   const lightBackgroundTargets = [
     document.getElementById('about-scroll-hit') ?? document.getElementById('about'),
+    document.getElementById('profile'),
     document.getElementById('works'),
     document.getElementById('skills'),
   ].filter((target): target is HTMLElement => target !== null);

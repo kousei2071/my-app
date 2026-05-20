@@ -1,32 +1,5 @@
+import { journeyMilestones } from './about/journeyMilestones';
 import styles from './LifeJourneySection.module.css';
-
-type Milestone = {
-  id: string;
-  period: string;
-  title: string;
-  description: string;
-};
-
-const milestones: Milestone[] = [
-  {
-    id: 'hs',
-    period: ' – 2025.03',
-    title: '大沼中学校',
-    description: '中学校を卒業',
-  },
-  {
-    id: 'uni',
-    period: '2024.04 – 現在',
-    title: 'プログラミングを始める',
-    description: 'プログラミングへの興味が芽生え、スクールでプログラミングを学ぶ。',
-  },
-  {
-    id: 'portfolio',
-    period: '2025.04 – ',
-    title: 'KADOKAWAドワンゴ情報工科学院入学',
-    description: 'エンジニアを専攻。Webアプリケーション開発を中心に学ぶ。',
-  },
-];
 
 type LifeJourneySectionProps = {
   /** About と横並びにするとき true */
@@ -49,7 +22,7 @@ export default function LifeJourneySection({ pairLayout = false }: LifeJourneySe
         </h2>
 
         <ol className={styles.timeline}>
-          {milestones.map((m, i) => (
+          {journeyMilestones.map((m, i) => (
             <li key={m.id} className={styles.event}>
               <div className={styles.spine} aria-hidden="true">
                 <span className={styles.dot} />

@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { computeHeaderNavTint, mixNavRgb } from './about/scrollModel';
 import styles from './Header.module.css';
 
 const Header = () => {
+  const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
   const [aboutT, setAboutT] = useState(0);
 
@@ -38,6 +40,12 @@ const Header = () => {
     [aboutT],
   );
 
+  const onHomeClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (pathname !== '/') return;
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <header
       ref={headerRef}
@@ -47,10 +55,12 @@ const Header = () => {
         <h1 className={`text-2xl font-bold sm:text-3xl ${styles.title}`}>Kousei Tomita</h1>
         <ul className={`${styles.links} ${styles.linksResponsive}`}>
           <li>
-            <Link href="/">Home</Link>
+            <Link href="/" onClick={onHomeClick}>
+              Home
+            </Link>
           </li>
           <li>
-            <Link href="/#about">About</Link>
+            <Link href="/about">About</Link>
           </li>
           <li>
             <Link href="/#works">Works</Link>

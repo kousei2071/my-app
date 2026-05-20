@@ -1,0 +1,343 @@
+/* 詳細 About ページ - ホームと同じスタイルを継承 */
+
+.page {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* ========================================
+   プロフィール - AboutSection スタイル継承
+   ======================================== */
+
+.profileSection {
+  padding: clamp(7rem, 18vw, 10rem) clamp(1.5rem, 5vw, 3rem) clamp(4rem, 10vw, 6rem);
+  background-color: #ffffff;
+  scroll-margin-top: 5rem;
+}
+
+.profileContainer {
+  max-width: 52rem;
+  margin: 0 auto;
+}
+
+.profileMessage {
+  max-width: 42rem;
+  min-width: 0;
+  text-align: left;
+  overflow-x: clip;
+  padding-left: clamp(1rem, 3vw, 1.5rem);
+  border-left: 10px solid #0a0a0a;
+}
+
+.heading {
+  margin: 0 0 clamp(0.75rem, 2vw, 1.25rem);
+  color: #111827;
+  line-height: 0.9;
+}
+
+.title {
+  display: block;
+  font-size: clamp(4rem, 18vw, 11.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+}
+
+.nameBlock {
+  min-width: 0;
+}
+
+.nameJa {
+  margin: 0 0 0.2rem;
+  max-width: 100%;
+  font-size: clamp(2.25rem, 6.5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: #0a0a0a;
+}
+
+.nameEn {
+  margin: 0 0 clamp(1.25rem, 3.5vw, 2rem);
+  max-width: 42rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #525252;
+}
+
+.lead {
+  margin: 0 0 1.15rem;
+  max-width: 42rem;
+  color: #171717;
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.body {
+  margin: 0 0 clamp(2rem, 5vw, 3rem);
+  max-width: 42rem;
+  color: #404040;
+  font-size: clamp(1.0625rem, 2.2vw, 1.1875rem);
+  line-height: 1.72;
+}
+
+.focusBlock {
+  padding-top: clamp(1.5rem, 4vw, 2rem);
+  border-top: 1px solid #e5e7eb;
+}
+
+.focusHeading {
+  margin: 0 0 clamp(0.75rem, 2vw, 1rem);
+  font-size: clamp(0.6875rem, 1.2vw, 0.8125rem);
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #525252;
+}
+
+.focusList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+}
+
+.focusList li {
+  position: relative;
+  padding-left: 1rem;
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
+  line-height: 1.5;
+  color: #171717;
+}
+
+.focusList li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  background-color: #0a0a0a;
+  border-radius: 50%;
+}
+
+/* ========================================
+   経歴 - LifeJourneySection スタイル継承
+   ======================================== */
+
+.journeySection {
+  padding: 0;
+  margin: 0;
+  background-color: #0a0a0a;
+  color: #fafafa;
+  scroll-margin-top: 5rem;
+}
+
+.journeyInner {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 3rem);
+}
+
+.journeyHeading {
+  margin: 0 0 clamp(2rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.journeyEyebrow {
+  font-size: clamp(0.6875rem, 1.2vw, 0.8125rem);
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #a3a3a3;
+}
+
+.journeyMain {
+  font-size: clamp(1.5rem, 4.2vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  color: #fafafa;
+}
+
+/* タイムライン */
+.timeline {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: calc(2.75rem / 2 - 2px);
+  top: 0.35rem;
+  bottom: 0.35rem;
+  width: 4px;
+  background-color: #fafafa;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.event {
+  position: relative;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  column-gap: clamp(0.75rem, 2vw, 1.25rem);
+  align-items: stretch;
+  padding-bottom: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.event:last-child {
+  padding-bottom: 0;
+}
+
+.spine {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  min-height: 3.25rem;
+}
+
+.dot {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-left: calc(2.75rem / 2 - 0.425rem);
+  border-radius: 50%;
+  background-color: #0a0a0a;
+  border: 3px solid #fafafa;
+  box-shadow: 0 0 0 3px #0a0a0a;
+}
+
+.branch {
+  flex: 1 1 auto;
+  height: 3px;
+  margin: 0;
+  min-width: 0.5rem;
+  margin-top: 0.05rem;
+  border-radius: 1px;
+  background-color: #fafafa;
+}
+
+/* カード */
+.card {
+  position: relative;
+  scroll-margin-top: clamp(5rem, 12vw, 7rem);
+  margin: 0;
+  padding: clamp(1rem, 2.5vw, 1.35rem) clamp(1rem, 2.5vw, 1.5rem);
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
+  border-radius: 0;
+  border: none;
+  border-left: 5px solid #fafafa;
+  background-color: #171717;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.index {
+  position: absolute;
+  top: 0.15rem;
+  right: 0.35rem;
+  font-size: clamp(3.25rem, 12vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgb(250 250 250 / 8%);
+  pointer-events: none;
+  user-select: none;
+}
+
+.period {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.5rem;
+  font-size: clamp(0.8125rem, 1.8vw, 0.9375rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  color: #a3a3a3;
+}
+
+.cardTitle {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.125rem, 2.8vw, 1.5rem);
+  font-weight: 800;
+  color: #fafafa;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.cardBody {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.75rem;
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
+  line-height: 1.65;
+  color: #d4d4d4;
+}
+
+.cardDetail {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(250, 250, 250, 0.12);
+  font-size: clamp(0.9375rem, 2vw, 1rem);
+  line-height: 1.7;
+  color: #a3a3a3;
+}
+
+/* ========================================
+   戻るリンク
+   ======================================== */
+
+.backSection {
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3rem);
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.backLink {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #0a0a0a;
+  text-decoration: none;
+  border: 2px solid #0a0a0a;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.backLink:hover {
+  background-color: #0a0a0a;
+  color: #fafafa;
+}
+
+@media (min-width: 640px) {
+  .spine {
+    min-height: 3.5rem;
+  }
+
+  .card {
+    padding: clamp(1.15rem, 2.8vw, 1.5rem) clamp(1.15rem, 3vw, 1.65rem);
+    padding-top: clamp(1.35rem, 3.2vw, 1.85rem);
+  }
+}
