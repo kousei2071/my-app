@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { computeHeaderNavTint, mixNavRgb } from './about/scrollModel';
+import { computeHeaderNavTint, mixNavRgb } from './about/shared/scrollModel';
 import styles from './Header.module.css';
 
 const Header = () => {

@@ -10,7 +10,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { computeAboutScrollMotion, type AboutScrollMotion } from './scrollModel';
+import { computeAboutScrollMotion, type AboutScrollMotion } from '../shared/scrollModel';
 import styles from './styles/AboutScrollStage.module.css';
 
 export type AboutScrollValue = {
@@ -91,8 +91,6 @@ export default function AboutScrollStage({ children }: AboutScrollStageProps) {
         const entry = entries[0];
         if (!entry?.isIntersecting || revealedRef.current) return;
 
-        // 「画面の半分くらい」About ブロックが見えてから: 可視高さが 50vh か、
-        // ブロックが低い場合は要素のほぼ全体が見えるまで待つ
         const vh = window.innerHeight;
         const targetH = entry.boundingClientRect.height;
         const visibleH = entry.intersectionRect.height;

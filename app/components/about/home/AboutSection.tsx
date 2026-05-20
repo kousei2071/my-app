@@ -2,7 +2,7 @@
 
 import type { CSSProperties } from 'react';
 import { useAboutScroll } from './AboutScrollStage';
-import { TITLE_ORIGIN_SHIFT_PX, type AboutScrollMotion } from './scrollModel';
+import { TITLE_ORIGIN_SHIFT_PX, type AboutScrollMotion } from '../shared/scrollModel';
 import styles from './styles/AboutSection.module.css';
 
 type AboutSectionProps = {

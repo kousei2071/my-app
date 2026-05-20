@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { journeyMilestones } from './journeyMilestones';
+import { journeyMilestones } from '../shared/journeyMilestones';
 import styles from './styles/AboutDetailView.module.css';
 
 const PROFILE = {
@@ -18,7 +18,6 @@ const PROFILE = {
 export default function AboutDetailView() {
   return (
     <div className={styles.page}>
-      {/* プロフィールセクション - ホームの AboutSection スタイル */}
       <section id="profile" className={styles.profileSection} aria-labelledby="detail-about-title">
         <p className={styles.bgTitleLeft} aria-hidden="true">
           ABOUT
@@ -55,7 +54,6 @@ export default function AboutDetailView() {
         </div>
       </section>
 
-      {/* 経歴セクション - ホームの LifeJourneySection スタイル */}
       <section id="journey" className={styles.journeySection} aria-labelledby="detail-journey-title">
         <div className={styles.journeyInner}>
           <h2 id="detail-journey-title" className={styles.journeyHeading}>
@@ -83,7 +81,6 @@ export default function AboutDetailView() {
         </div>
       </section>
 
-      {/* トップへ戻るリンク */}
       <div className={styles.backSection}>
         <Link href="/" className={styles.backLink}>
           ← トップへ戻る

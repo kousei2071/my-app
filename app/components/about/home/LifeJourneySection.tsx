@@ -1,5 +1,5 @@
-import { journeyMilestones } from './about/journeyMilestones';
-import styles from './LifeJourneySection.module.css';
+import { journeyMilestones } from '../shared/journeyMilestones';
+import styles from './styles/LifeJourneySection.module.css';
 
 type LifeJourneySectionProps = {
   /** About と横並びにするとき true */
