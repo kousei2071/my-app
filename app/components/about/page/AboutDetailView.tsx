@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import AboutPageBridge from './AboutPageBridge';
 import AboutPageJourney from './AboutPageJourney';
 import AboutPageProfile from './AboutPageProfile';
@@ -10,12 +9,6 @@ export default function AboutDetailView() {
       <AboutPageProfile />
       <AboutPageBridge />
       <AboutPageJourney />
-
-      <div className={styles.backSection}>
-        <Link href="/" className={styles.backLink}>
-          ← トップへ戻る
-        </Link>
-      </div>
     </div>
   );
 }

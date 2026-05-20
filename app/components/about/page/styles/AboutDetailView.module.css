@@ -464,35 +464,6 @@
   line-height: 1.72;
 }
 
-/* ========================================
-   戻るリンク
-   ======================================== */
-
-.backSection {
-  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3rem);
-  background-color: #ffffff;
-  text-align: center;
-}
-
-.backLink {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #0a0a0a;
-  text-decoration: none;
-  border: 2px solid #0a0a0a;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.backLink:hover {
-  background-color: #0a0a0a;
-  color: #fafafa;
-}
-
 @media (max-width: 640px) {
   .bgTitleText {
     font-size: clamp(5rem, 26vw, 8.5rem);
