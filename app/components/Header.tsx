@@ -12,6 +12,17 @@ const Header = () => {
   const [aboutT, setAboutT] = useState(0);
 
   useEffect(() => {
+    // About は常に白背景 → 文字色は暗め固定（scroll 監視は Home のみ）
+    if (pathname === '/about') {
+      setAboutT(1);
+      return;
+    }
+
+    if (pathname !== '/') {
+      setAboutT(0);
+      return;
+    }
+
     const headerEl = headerRef.current;
     if (!headerEl) return;
 
@@ -33,7 +44,7 @@ const Header = () => {
       window.removeEventListener('resize', onScrollOrResize);
       window.visualViewport?.removeEventListener('resize', onScrollOrResize);
     };
-  }, []);
+  }, [pathname]);
 
   const navStyle = useMemo(
     (): CSSProperties => ({ color: mixNavRgb(aboutT) }),

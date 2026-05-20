@@ -70,7 +70,10 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1rem, 2.4vw, 1.5rem);
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid rgb(10 10 10 / 12%);
+  border-radius: 0.5rem;
 }
 
 .card {
@@ -79,13 +82,40 @@
   min-height: 32rem;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgb(10 10 10 / 12%);
-  border-radius: 0.5rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-right: 1px solid rgb(10 10 10 / 12%);
+  border-radius: 0;
   background: rgb(255 255 255 / 72%);
   backdrop-filter: blur(18px);
+  text-align: left;
+  cursor: pointer;
   transition:
     transform 180ms ease,
-    border-color 180ms ease;
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.card:last-child {
+  border-right: none;
+}
+
+.card:hover,
+.card:focus-visible {
+  z-index: 1;
+  transform: translateY(-6px);
+  border-color: rgb(10 10 10 / 18%);
+  background: rgb(255 255 255 / 96%);
+  box-shadow:
+    0 18px 36px rgb(10 10 10 / 10%),
+    0 0 0 1px rgb(10 10 10 / 8%);
+}
+
+.card:focus-visible {
+  outline: 2px solid #0a0a0a;
+  outline-offset: -2px;
 }
 
 .cardTop {
@@ -154,6 +184,41 @@
   object-fit: cover;
   object-position: center top;
   filter: grayscale(100%) contrast(1.04) brightness(0.92);
+  transition:
+    filter 220ms ease,
+    transform 280ms ease;
+}
+
+.card:hover .previewImg,
+.card:focus-visible .previewImg {
+  filter: grayscale(0%) contrast(1.02) brightness(1);
+  transform: scale(1.03);
+}
+
+.viewDetail {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.85rem;
+  z-index: 2;
+  border-radius: 9999px;
+  padding: 0.4rem 0.75rem;
+  background: rgb(10 10 10 / 82%);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.card:hover .viewDetail,
+.card:focus-visible .viewDetail {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .preview > span {
@@ -237,20 +302,20 @@
   letter-spacing: -0.04em;
 }
 
-.description {
-  margin: 1rem 0 0;
+.summary {
+  margin: 0.85rem 0 0;
   color: #404040;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 500;
-  line-height: 1.75;
+  line-height: 1.65;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-  margin: auto 0 1rem;
-  padding: 1.5rem 0 0;
+  margin: auto 0 0;
+  padding: 1.25rem 0 0;
   list-style: none;
 }
 
@@ -264,16 +329,6 @@
   font-weight: 700;
 }
 
-.url {
-  margin: 0;
-  border-top: 1px solid rgb(10 10 10 / 10%);
-  padding-top: 0.9rem;
-  color: #0a0a0a;
-  font-size: 0.86rem;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-}
-
 @media (max-width: 960px) {
   .headingBlock {
     grid-template-columns: 1fr;
@@ -281,10 +336,20 @@
 
   .grid {
     grid-template-columns: 1fr;
+    gap: clamp(1rem, 2.4vw, 1.5rem);
+    overflow: visible;
+    border: none;
+    border-radius: 0;
   }
 
   .card {
     min-height: auto;
+    border: 1px solid rgb(10 10 10 / 12%);
+    border-radius: 0.5rem;
+  }
+
+  .card:last-child {
+    border-right: 1px solid rgb(10 10 10 / 12%);
   }
 }
 
@@ -304,7 +369,25 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card {
+  .card,
+  .previewImg,
+  .viewDetail {
     transition: none;
+  }
+
+  .card:hover,
+  .card:focus-visible {
+    transform: none;
+  }
+
+  .card:hover .previewImg,
+  .card:focus-visible .previewImg {
+    transform: none;
+  }
+
+  .card:hover .viewDetail,
+  .card:focus-visible .viewDetail {
+    opacity: 1;
+    transform: none;
   }
 }

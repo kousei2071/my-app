@@ -8,8 +8,7 @@
  */
 
 export { HeroSection } from '../hero';
-export { AboutScrollStage, AboutJourneyRow, useAboutScroll } from './home';
-export type { AboutScrollValue } from './home';
+export { AboutScrollStage, AboutJourneyRow } from './home';
 export { AboutDetailView } from './page';
 export {
   ABOUT_TWO_COL_MIN_WIDTH_PX,

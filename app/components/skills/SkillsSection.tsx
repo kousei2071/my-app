@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { LazyMotion, domAnimation, m, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { ParticleBurst } from './ParticleBurst';
 import { SkillCards } from './SkillCards';
@@ -61,7 +61,7 @@ export default function SkillsSection() {
                 aria-busy={busy}
               >
                 <Image
-                  src="/icons/search.png"
+                  src="/icons/search.webp"
                   alt=""
                   width={22}
                   height={22}
@@ -77,27 +77,29 @@ export default function SkillsSection() {
             className={styles.contentStage}
             style={minH !== undefined ? { minHeight: minH } : undefined}
           >
-            {showBurst && <ParticleBurst items={particles} onDone={onParticleDone} />}
+            <LazyMotion features={domAnimation} strict>
+              {showBurst && <ParticleBurst items={particles} onDone={onParticleDone} />}
 
-            <motion.div
-              key={view}
-              className={styles.contentReveal}
-              initial={revealFrom}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: REVEAL_S, ease: EASE }}
-              onAnimationComplete={() => {
-                if (phase === 'reveal') {
-                  onRevealDone();
-                }
-              }}
-            >
-              <SkillCards
-                view={view}
-                label={meta.cardLabel}
-                hidden={hideCards}
-                animateBars={animateBars}
-              />
-            </motion.div>
+              <m.div
+                key={view}
+                className={styles.contentReveal}
+                initial={revealFrom}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: REVEAL_S, ease: EASE }}
+                onAnimationComplete={() => {
+                  if (phase === 'reveal') {
+                    onRevealDone();
+                  }
+                }}
+              >
+                <SkillCards
+                  view={view}
+                  label={meta.cardLabel}
+                  hidden={hideCards}
+                  animateBars={animateBars}
+                />
+              </m.div>
+            </LazyMotion>
           </div>
         </div>
       </div>
