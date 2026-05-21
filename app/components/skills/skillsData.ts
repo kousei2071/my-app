@@ -15,11 +15,11 @@ export const skillGroups: SkillGroup[] = [
     title: 'Frontend',
     description: 'Webページの構造、見た目、動きを組み立てるための基本技術です。',
     skills: [
-      { name: 'React.js', level: 60 },
-      { name: 'Next.js', level: 60 },
-      { name: 'JavaScript', level: 45 },
-      { name: 'HTML', level: 40 },
-      { name: 'CSS', level: 40 },
+      { name: 'React', level: 50 },
+      { name: 'Next.js', level: 40 },
+      { name: 'JavaScript', level: 55 },
+      { name: 'HTML', level: 50 },
+      { name: 'CSS', level: 50 },
     ],
   },
   {
@@ -27,7 +27,7 @@ export const skillGroups: SkillGroup[] = [
     description: 'コンポーネント単位でUIを分け、ページ全体を管理しやすくします。',
     skills: [
       { name: 'python', level: 60 },
-      { name: 'Java', level: 0 },
+      { name: 'Java', level: 2 },
       { name: 'Node.js', level: 10 },
     ],
   },
@@ -46,8 +46,8 @@ export const skillGroups: SkillGroup[] = [
     skills: [
       { name: 'Git', level: 50 },
       { name: 'GitHub', level: 50 },
-      { name: 'VS Code', level: 70 },
-      { name: 'Figma', level: 45 },
+      { name: 'AWS', level: 50 },
+      { name: 'Figma', level: 20 },
     ],
   },
 ];
