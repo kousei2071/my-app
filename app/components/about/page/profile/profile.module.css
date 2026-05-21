@@ -193,7 +193,7 @@
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
-  overflow-x: clip;
+  overflow-x: visible;
   overflow-y: visible;
 }
 
