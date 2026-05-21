@@ -26,6 +26,7 @@
   margin: 0 0 clamp(0.75rem, 2vw, 1.25rem);
   color: #111827;
   line-height: 0.9;
+  overflow: visible;
 }
 
 .title {
@@ -39,7 +40,7 @@
 
 .titleReveal {
   display: block;
-  transform-origin: calc(-1 * clamp(1rem, 3vw, 1.5rem) - 5px + 20px) 50%;
+  transform-origin: left center;
 }
 
 .nameBlock {

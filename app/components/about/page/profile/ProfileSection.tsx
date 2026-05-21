@@ -40,16 +40,17 @@ const slideFromRight: Variants = {
 const titleVariant: Variants = {
   hidden: {
     opacity: 0,
-    x: 96,
+    y: 28,
     filter: 'blur(12px)',
   },
   show: {
     opacity: 1,
-    x: 0,
+    y: 0,
     filter: 'blur(0px)',
     transition: {
       duration: 1.05,
       ease: EASE_OUT,
+      opacity: { duration: 0.55, delay: 0.45, ease: EASE_OUT },
     },
   },
 };

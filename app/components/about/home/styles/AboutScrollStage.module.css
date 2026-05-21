@@ -24,18 +24,18 @@
   }
 }
 
-/* ABOUT タイトル出現 */
+/* ABOUT タイトル出現（横オフセットは bleed/wrap の overflow-x: clip で見切れるため使わない） */
 .stage:not(.revealed) :global(.aboutTitleReveal) {
   opacity: 0;
-  transform: translate3d(calc(-16vw + 20px), 0, 0) scale(0.92);
+  transform: translate3d(0, 0.14em, 0) scale(0.94);
 }
 
 .stage.revealed :global(.aboutTitleReveal) {
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
   transition:
-    opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
 }
 
 @media (prefers-reduced-motion: reduce) {
