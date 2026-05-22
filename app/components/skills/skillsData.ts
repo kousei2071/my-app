@@ -32,17 +32,18 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    title: 'Styling',
-    description: '画面幅に合わせたレイアウトや、スクロールに合わせた演出を作ります。',
+    title: 'Other',
+    description: 'その他のデザインや、技術に関する基本知識です。',
     skills: [
-      { name: 'CSS Modules', level: 55 },
-      { name: 'Responsive Design', level: 50 },
-      { name: 'Animation', level: 40 },
+      { name: 'Adobi Photoshop', level: 35 },
+      { name: 'figman', level: 30 },
+      { name: 'VS Code', level: 60 },
+      { name: 'AI', level: 60 },
     ],
   },
   {
-    title: 'Tools',
-    description: '開発、デザイン確認、変更管理に使っているツールです。',
+    title: 'Tool',
+    description: '開発、デザイン確認、変更管理に使っているツールやサービスです。',
     skills: [
       { name: 'Git', level: 50 },
       { name: 'GitHub', level: 50 },
