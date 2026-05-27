@@ -1,0 +1,60 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2d2d2d;
+  transition: opacity 0.55s ease;
+}
+
+.exiting {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.container {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.container span {
+  display: block;
+  background: #ffffff;
+  width: 100px;
+  height: 5px;
+  margin-top: 5px;
+  animation: load 2s infinite;
+  border-radius: 5px;
+}
+
+.container span:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.container span:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+.container p {
+  margin: 0.75rem 0 0;
+  color: #ffffff;
+  font-size: 0.875rem;
+  letter-spacing: 0.12em;
+}
+
+@keyframes load {
+  50% {
+    width: 5px;
+    margin-right: 95px;
+    opacity: 0.1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container span {
+    animation: none;
+  }
+}
