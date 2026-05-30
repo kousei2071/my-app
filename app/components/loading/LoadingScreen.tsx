@@ -1,10 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './LoadingScreen.module.css';
 
 const STORAGE_KEY = 'portfolio-loading-seen';
-const MIN_DISPLAY_MS = 1400;
+const SHOW_DELAY_MS = 300;
 const MAX_WAIT_MS = 4500;
 
 function waitForPageReady(): Promise<void> {
@@ -22,14 +22,6 @@ function waitForPageReady(): Promise<void> {
 export default function LoadingScreen() {
   const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
-  const startedAt = useRef(0);
-
-  const finish = useCallback(() => {
-    const elapsed = performance.now() - startedAt.current;
-    const delay = Math.max(0, MIN_DISPLAY_MS - elapsed);
-
-    window.setTimeout(() => setExiting(true), delay);
-  }, []);
 
   const handleTransitionEnd = (event: React.TransitionEvent<HTMLDivElement>) => {
     if (event.propertyName !== 'opacity' || !exiting) return;
@@ -45,25 +37,65 @@ export default function LoadingScreen() {
       return;
     }
 
-    setVisible(true);
-    startedAt.current = performance.now();
-
     let cancelled = false;
+    let showTimer: number | null = null;
     let maxTimer: number | null = null;
+    const mountTime = performance.now();
 
-    const scheduleExit = () => {
-      if (cancelled) return;
-      finish();
+    const markSeen = () => {
+      sessionStorage.setItem(STORAGE_KEY, '1');
     };
 
-    void waitForPageReady().then(scheduleExit);
-    maxTimer = window.setTimeout(scheduleExit, MAX_WAIT_MS);
+    const finishWithoutLoader = () => {
+      if (cancelled) return;
+      cancelled = true;
+      if (showTimer !== null) window.clearTimeout(showTimer);
+      markSeen();
+    };
+
+    const finishWithLoader = () => {
+      if (cancelled) return;
+      cancelled = true;
+      setVisible(true);
+      setExiting(true);
+    };
+
+    const onReady = () => {
+      if (cancelled) return;
+
+      const elapsed = performance.now() - mountTime;
+      if (elapsed < SHOW_DELAY_MS) {
+        finishWithoutLoader();
+        return;
+      }
+
+      finishWithLoader();
+    };
+
+    showTimer = window.setTimeout(() => {
+      if (cancelled) return;
+
+      if (document.readyState === 'complete') {
+        finishWithoutLoader();
+        return;
+      }
+
+      setVisible(true);
+    }, SHOW_DELAY_MS);
+
+    void waitForPageReady().then(onReady);
+
+    maxTimer = window.setTimeout(() => {
+      if (cancelled) return;
+      finishWithLoader();
+    }, MAX_WAIT_MS);
 
     return () => {
       cancelled = true;
+      if (showTimer !== null) window.clearTimeout(showTimer);
       if (maxTimer !== null) window.clearTimeout(maxTimer);
     };
-  }, [finish]);
+  }, []);
 
   useEffect(() => {
     if (!visible) return;
