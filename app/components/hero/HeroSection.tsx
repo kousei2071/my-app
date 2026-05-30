@@ -52,7 +52,7 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
         fill
         priority
         quality={80}
-        sizes="100vw"
+        sizes="(max-width: 768px) 100vw, 1920px"
         className={styles.bg}
       />
     </section>
