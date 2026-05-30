@@ -74,7 +74,9 @@ const Header = () => {
             <Link href="/about">About</Link>
           </li>
           <li>
-            <Link href="/#works">Works</Link>
+            <Link href="/#works" prefetch={false}>
+              Works
+            </Link>
           </li>
         </ul>
       </nav>
