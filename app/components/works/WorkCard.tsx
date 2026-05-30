@@ -43,7 +43,7 @@ export default function WorkCard({ work, index, isOpen, onOpen }: WorkCardProps)
             <div className={styles.previewViewport}>
               <Image
                 src={work.image}
-                alt=""
+                alt={work.imageAlt ?? `${work.title}のスクリーンショット`}
                 fill
                 quality={80}
                 sizes="(max-width: 960px) 100vw, 33vw"
