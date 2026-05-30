@@ -8,16 +8,17 @@ import sharp from 'sharp';
 
 const ROOT = path.join(import.meta.dirname, '..', 'public');
 
-/** @type {[string, string, number, number][]} */
+/** @type {[string, string, number, number, boolean | undefined][]} */
 const jobs = [
-  ['myline.png', 'myline.webp', 82, 2400],
+  // 線画ヒーローは tall viewport の cover 表示で拡大されるため、元 PNG より大きく出力する
+  ['myline.png', 'myline.webp', 82, 2400, true],
   ['works/fream.png', 'works/fream.webp', 82, 1200],
   ['works/stride.png', 'works/stride.webp', 82, 1200],
   ['works/tankore.png', 'works/tankore.webp', 82, 1200],
   ['icons/search.png', 'icons/search.webp', 85, 64],
 ];
 
-for (const [srcName, outName, quality, maxWidth] of jobs) {
+for (const [srcName, outName, quality, maxWidth, allowEnlarge] of jobs) {
   const inPath = path.join(ROOT, srcName);
   const outPath = path.join(ROOT, outName);
   if (!fs.existsSync(inPath)) {
@@ -25,7 +26,7 @@ for (const [srcName, outName, quality, maxWidth] of jobs) {
     continue;
   }
   await sharp(inPath)
-    .resize({ width: maxWidth, withoutEnlargement: true })
+    .resize({ width: maxWidth, withoutEnlargement: !allowEnlarge })
     .webp({ quality })
     .toFile(outPath);
   const inKb = Math.round(fs.statSync(inPath).size / 1024);
