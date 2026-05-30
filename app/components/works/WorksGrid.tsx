@@ -1,19 +1,26 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, type ComponentType } from 'react';
 import WorkCard from './WorkCard';
-
-const WorkDetailModal = dynamic(() => import('./WorkDetailModal'), { ssr: false });
 import styles from './WorksSection.module.css';
 import { works, type Work } from './worksData';
 
+type WorkDetailModalProps = {
+  work: Work | null;
+  onClose: () => void;
+};
+
 export default function WorksGrid() {
   const [openWork, setOpenWork] = useState<Work | null>(null);
+  const [Modal, setModal] = useState<ComponentType<WorkDetailModalProps> | null>(null);
 
-  const handleOpen = useCallback((work: Work) => {
+  const handleOpen = useCallback(async (work: Work) => {
+    if (!Modal) {
+      const mod = await import('./WorkDetailModal');
+      setModal(() => mod.default);
+    }
     setOpenWork(work);
-  }, []);
+  }, [Modal]);
 
   const handleClose = useCallback(() => {
     setOpenWork(null);
@@ -28,11 +35,11 @@ export default function WorksGrid() {
             work={work}
             index={index}
             isOpen={openWork?.title === work.title}
-            onOpen={() => handleOpen(work)}
+            onOpen={() => void handleOpen(work)}
           />
         ))}
       </div>
-      <WorkDetailModal work={openWork} onClose={handleClose} />
+      {Modal ? <Modal work={openWork} onClose={handleClose} /> : null}
     </>
   );
 }
