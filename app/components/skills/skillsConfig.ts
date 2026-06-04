@@ -24,8 +24,8 @@ export const siteStack = [
     description: '型をつけて、変更しやすいコードにしています。',
   },
   {
-    name: 'CSS Modules',
-    description: 'セクションごとにスタイルを閉じ込め、見た目の衝突を防いでいます。',
+    name: 'EmailJS',
+    description: 'メール送信機能を実装しています。',
   },
   {
     name: 'framer-motion',
