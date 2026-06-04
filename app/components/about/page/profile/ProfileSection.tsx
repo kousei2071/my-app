@@ -1,9 +1,14 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type ComponentType } from 'react';
 import { animate, motion, useMotionValue, useReducedMotion, type Variants } from 'framer-motion';
 import Aside from './Aside';
 import styles from './profile.module.css';
+
+type ContactModalProps = {
+  open: boolean;
+  onClose: () => void;
+};
 
 const PROFILE = {
   nameJa: '富田 幸聖',
@@ -15,7 +20,6 @@ const PROFILE = {
 
 const LINKS = {
   github: 'https://github.com/kousei2071',
-  contact: 'mailto:contact@example.com',
 };
 
 const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -73,7 +77,21 @@ const staticShow: Variants = {
 export default function ProfileSection() {
   const reduceMotion = useReducedMotion();
   const [phase, setPhase] = useState<'intro' | 'split'>('intro');
+  const [contactOpen, setContactOpen] = useState(false);
+  const [ContactModal, setContactModal] = useState<ComponentType<ContactModalProps> | null>(null);
   const columnX = useMotionValue(0);
+
+  const handleContactOpen = useCallback(async () => {
+    if (!ContactModal) {
+      const mod = await import('../../../contact/ContactModal');
+      setContactModal(() => mod.default);
+    }
+    setContactOpen(true);
+  }, [ContactModal]);
+
+  const handleContactClose = useCallback(() => {
+    setContactOpen(false);
+  }, []);
 
   useEffect(() => {
     if (reduceMotion) setPhase('split');
@@ -153,10 +171,12 @@ export default function ProfileSection() {
           <Aside
             active={isSplit}
             githubHref={LINKS.github}
-            contactHref={LINKS.contact}
+            onContactOpen={() => void handleContactOpen()}
           />
         </div>
       </motion.div>
+
+      {ContactModal ? <ContactModal open={contactOpen} onClose={handleContactClose} /> : null}
     </section>
   );
 }

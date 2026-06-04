@@ -37,10 +37,10 @@ const asideItem: Variants = {
 type AsideProps = {
   active: boolean;
   githubHref: string;
-  contactHref: string;
+  onContactOpen: () => void;
 };
 
-export default function Aside({ active, githubHref, contactHref }: AsideProps) {
+export default function Aside({ active, githubHref, onContactOpen }: AsideProps) {
   const [hobbyA, hobbyB] = PROFILE_META.hobbies;
   const item = active ? asideItem : asideItemIdle;
 
@@ -69,10 +69,10 @@ export default function Aside({ active, githubHref, contactHref }: AsideProps) {
           <GitHubIcon className={styles.actionIcon} />
           <span>GitHub</span>
         </a>
-        <a className={styles.actionButton} href={contactHref}>
+        <button type="button" className={styles.actionButton} onClick={onContactOpen}>
           <MessageIcon className={styles.actionIcon} />
           <span>Contact</span>
-        </a>
+        </button>
       </motion.nav>
 
       <motion.div className={styles.metaCompact} variants={item}>
