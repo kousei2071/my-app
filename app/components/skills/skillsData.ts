@@ -16,7 +16,6 @@ export const skillGroups: SkillGroup[] = [
     description: 'Webページの構造、見た目、動きを組み立てるための基本技術です。',
     skills: [
       { name: 'React', level: 50 },
-      { name: 'Next.js', level: 40 },
       { name: 'JavaScript', level: 55 },
       { name: 'HTML', level: 50 },
       { name: 'CSS', level: 50 },
@@ -27,18 +26,18 @@ export const skillGroups: SkillGroup[] = [
     description: 'コンポーネント単位でUIを分け、ページ全体を管理しやすくします。',
     skills: [
       { name: 'python', level: 60 },
-      { name: 'Java', level: 2 },
+      { name: 'Java', level: 15 },
       { name: 'Node.js', level: 10 },
     ],
   },
   {
-    title: 'Other',
-    description: 'その他のデザインや、技術に関する基本知識です。',
+    title: 'framework',
+    description: 'フレームワークに関する知識です。',
     skills: [
-      { name: 'Adobi Photoshop', level: 35 },
-      { name: 'figman', level: 30 },
-      { name: 'VS Code', level: 60 },
-      { name: 'AI', level: 60 },
+      { name: 'Next.js', level: 40 },
+      { name: 'Django', level: 50 },
+      { name: 'Spring Boot', level: 5 },
+      { name: 'Flask', level: 20 },
     ],
   },
   {
