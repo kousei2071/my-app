@@ -25,7 +25,7 @@ export const siteStack = [
   },
   {
     name: 'EmailJS',
-    description: 'メール送信機能を実装しています。',
+    description: 'サーバー側 API 経由でお問い合わせメールを送信しています。',
   },
   {
     name: 'framer-motion',

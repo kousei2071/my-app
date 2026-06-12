@@ -195,32 +195,6 @@
   transform: scale(1.03);
 }
 
-.viewDetail {
-  position: absolute;
-  right: 0.9rem;
-  bottom: 0.85rem;
-  z-index: 2;
-  border-radius: 9999px;
-  padding: 0.4rem 0.75rem;
-  background: rgb(10 10 10 / 82%);
-  color: #ffffff;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  opacity: 0;
-  transform: translateY(4px);
-  transition:
-    opacity 180ms ease,
-    transform 180ms ease;
-}
-
-.card:hover .viewDetail,
-.card:focus-visible .viewDetail {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .preview > span {
   position: absolute;
   top: 0.85rem;
@@ -370,8 +344,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .card,
-  .previewImg,
-  .viewDetail {
+  .previewImg {
     transition: none;
   }
 
@@ -382,12 +355,6 @@
 
   .card:hover .previewImg,
   .card:focus-visible .previewImg {
-    transform: none;
-  }
-
-  .card:hover .viewDetail,
-  .card:focus-visible .viewDetail {
-    opacity: 1;
     transform: none;
   }
 }

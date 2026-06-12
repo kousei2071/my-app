@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import emailjs from '@emailjs/browser';
 import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion } from 'framer-motion';
 import { MODAL_SCROLL_ROOT_ATTR } from '../shared/modal/constants';
 import { useModalLayerLock } from '../shared/modal/useModalLayerLock';
@@ -16,20 +15,6 @@ type ContactModalProps = {
   open: boolean;
   onClose: () => void;
 };
-
-const PLACEHOLDER_PATTERN = /^your_/i;
-
-function getEmailJsConfig() {
-  return {
-    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? '',
-    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? '',
-    publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? '',
-  };
-}
-
-function isPlaceholderValue(value: string) {
-  return !value || PLACEHOLDER_PATTERN.test(value);
-}
 
 export default function ContactModal({ open, onClose }: ContactModalProps) {
   const reduceMotion = useReducedMotion();
@@ -84,40 +69,41 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
       return;
     }
 
-    const honeypot = form.elements.namedItem('website') as HTMLInputElement | null;
-    if (honeypot?.value) {
-      return;
-    }
-
-    const { serviceId, templateId, publicKey } = getEmailJsConfig();
-    if (
-      !serviceId ||
-      !templateId ||
-      !publicKey ||
-      isPlaceholderValue(serviceId) ||
-      isPlaceholderValue(templateId) ||
-      isPlaceholderValue(publicKey)
-    ) {
-      setSubmitState('error');
-      setFeedback(
-        'メール送信の設定が未完了です。.env.local に EmailJS の Service ID / Template ID / Public Key を設定してください。',
-      );
-      return;
-    }
+    const name = (form.elements.namedItem('from_name') as HTMLInputElement).value;
+    const email = (form.elements.namedItem('from_email') as HTMLInputElement).value;
+    const subject = (form.elements.namedItem('subject') as HTMLInputElement).value;
+    const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
+    const website = (form.elements.namedItem('website') as HTMLInputElement).value;
 
     setSubmitState('sending');
     setFeedback('');
 
     try {
-      await emailjs.sendForm(serviceId, templateId, form, { publicKey });
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, subject, message, website }),
+      });
+
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        setSubmitState('error');
+        setFeedback(
+          data.error ??
+            (response.status === 503
+              ? 'メール送信の設定が未完了です。管理者にお問い合わせください。'
+              : '送信に失敗しました。時間をおいて再度お試しください。'),
+        );
+        return;
+      }
+
       setSubmitState('success');
       setFeedback('送信しました。ご連絡ありがとうございます。');
       form.reset();
-    } catch (error) {
+    } catch {
       setSubmitState('error');
-      const detail =
-        error instanceof Error && error.message ? `（${error.message}）` : '';
-      setFeedback(`送信に失敗しました。時間をおいて再度お試しください。${detail}`);
+      setFeedback('送信に失敗しました。時間をおいて再度お試しください。');
     }
   };
 

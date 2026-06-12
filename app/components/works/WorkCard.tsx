@@ -50,9 +50,6 @@ export default function WorkCard({ work, index, isOpen, onOpen }: WorkCardProps)
                 className={styles.previewImg}
               />
             </div>
-            <span className={styles.viewDetail} aria-hidden>
-              View detail
-            </span>
           </>
         ) : (
           <>

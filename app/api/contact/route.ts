@@ -1,5 +1,5 @@
+import emailjs, { EmailJSResponseStatus } from '@emailjs/nodejs';
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
 import { z } from 'zod';
 
 const contactSchema = z.object({
@@ -31,25 +31,37 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const resendApiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.CONTACT_TO_EMAIL;
-  const fromEmail = process.env.CONTACT_FROM_EMAIL;
+  const serviceId = process.env.EMAILJS_SERVICE_ID;
+  const templateId = process.env.EMAILJS_TEMPLATE_ID;
+  const publicKey = process.env.EMAILJS_PUBLIC_KEY;
+  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
 
-  if (!resendApiKey || !toEmail || !fromEmail) {
+  if (!serviceId || !templateId || !publicKey) {
     return NextResponse.json({ error: 'Server not configured' }, { status: 503 });
   }
 
-  const resend = new Resend(resendApiKey);
-  const { error } = await resend.emails.send({
-    from: fromEmail,
-    to: toEmail,
-    replyTo: email,
-    subject: `[Portfolio Contact] ${subject}`,
-    text: [`From: ${name} <${email}>`, '', message].join('\n'),
-  });
+  try {
+    await emailjs.send(
+      serviceId,
+      templateId,
+      {
+        from_name: name,
+        from_email: email,
+        subject,
+        message,
+      },
+      {
+        publicKey,
+        ...(privateKey ? { privateKey } : {}),
+      },
+    );
+  } catch (error) {
+    if (error instanceof EmailJSResponseStatus) {
+      console.error('[contact] EmailJS error:', error.status, error.text);
+      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+    }
 
-  if (error) {
-    console.error('[contact] Resend error:', error);
+    console.error('[contact] Unexpected error:', error);
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 
