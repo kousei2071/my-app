@@ -11,12 +11,11 @@
     "optimize-images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
+    "@emailjs/nodejs": "^5.0.2",
     "framer-motion": "^12.39.0",
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "resend": "^6.12.4",
     "zod": "^4.4.3"
   },
   "devDependencies": {
