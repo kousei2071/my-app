@@ -1,6 +1,7 @@
 import emailjs, { EmailJSResponseStatus } from '@emailjs/nodejs';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { getEmailJsConfigError, getEmailJsEnv } from './emailJsEnv';
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, '名前を入力してください').max(100),
@@ -31,13 +32,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const serviceId = process.env.EMAILJS_SERVICE_ID;
-  const templateId = process.env.EMAILJS_TEMPLATE_ID;
-  const publicKey = process.env.EMAILJS_PUBLIC_KEY;
-  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
+  const { serviceId, templateId, publicKey, privateKey } = getEmailJsEnv();
+  const configError = getEmailJsConfigError({ serviceId, templateId, publicKey, privateKey });
 
-  if (!serviceId || !templateId || !publicKey) {
-    return NextResponse.json({ error: 'Server not configured' }, { status: 503 });
+  if (configError || !serviceId || !templateId || !publicKey) {
+    return NextResponse.json({ error: configError ?? 'メール送信の設定が未完了です。' }, { status: 503 });
   }
 
   try {
@@ -58,11 +57,25 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof EmailJSResponseStatus) {
       console.error('[contact] EmailJS error:', error.status, error.text);
-      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+
+      if (error.status === 403 && error.text.includes('Private Key')) {
+        return NextResponse.json(
+          { error: 'メール送信の設定が未完了です（Private Key が未設定または無効）。' },
+          { status: 503 },
+        );
+      }
+
+      return NextResponse.json(
+        { error: '送信に失敗しました。時間をおいて再度お試しください。' },
+        { status: 500 },
+      );
     }
 
     console.error('[contact] Unexpected error:', error);
-    return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+    return NextResponse.json(
+      { error: '送信に失敗しました。時間をおいて再度お試しください。' },
+      { status: 500 },
+    );
   }
 
   return NextResponse.json({ ok: true });
