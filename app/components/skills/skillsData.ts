@@ -26,7 +26,7 @@ export const skillGroups: SkillGroup[] = [
     description: 'コンポーネント単位でUIを分け、ページ全体を管理しやすくします。',
     skills: [
       { name: 'python', level: 60 },
-      { name: 'Java', level: 15 },
+      { name: 'Java', level: 45 },
       { name: 'Node.js', level: 10 },
     ],
   },
@@ -46,7 +46,7 @@ export const skillGroups: SkillGroup[] = [
     skills: [
       { name: 'Git', level: 50 },
       { name: 'GitHub', level: 50 },
-      { name: 'AWS', level: 50 },
+      { name: 'AWS', level: 30 },
       { name: 'Figma', level: 20 },
     ],
   },
