@@ -17,21 +17,21 @@ export type PathMilestone = {
 
 export const pathMilestones: PathMilestone[] = [
   {
-    id: 'path-start',
-    period: '2025.03 – ',
-    title: '大沼中学校卒業',
-    description: '大沼中学校を卒業し、高校に進学する',
-  },
-  {
-    id: 'path-team',
+    id: 'path-programming',
     period: '2024.01 – 2025.03',
     title: 'プログラミングに興味を持つ',
     description: 'ノーコードプログラミングから始まり、プログラミングの基礎を学ぶ',
   },
   {
-    id: 'path-portfolio',
+    id: 'path-college',
     period: '2025.04 – ',
     title: 'KADOKAWAドワンゴ情報工科学院入学',
     description: 'KADOKAWAドワンゴ情報工科学院に入学し、エンジニアを専攻する',
+  },
+  {
+    id: 'path-internship',
+    period: '2026.06.20 – ',
+    title: 'インターンシップ参加',
+    description: '実務の現場に飛び込み、エンジニアとしての経験を積み始める',
   },
 ];
